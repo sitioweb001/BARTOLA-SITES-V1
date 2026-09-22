@@ -15,11 +15,21 @@ const COL = {
   deseos: "deseos",
   eventos: "eventos",
   responsables: "responsables",
-  notificaciones: "notificaciones",
-  mail: "mail" // usada por la extensión "Trigger Email from Firestore"
+  notificaciones: "notificaciones"
 };
 
 const URL_SITIO = "https://sitioweb001.github.io/BARTOLITA-SITES/";
+
+/* ===== Envío real de correo (Apps Script) =====
+   Firestore por sí solo no manda correos. En vez de pagar la extensión
+   "Trigger Email from Firestore", usamos un Apps Script mínimo (correo.gs)
+   que solo hace MailApp.sendEmail. Gratis, con tu propia cuenta de Gmail.
+
+   1. Despliega correo.gs como Aplicación web (ver instrucciones ahí).
+   2. Pega aquí abajo la URL que te da (termina en /exec).
+   3. La CLAVE debe ser IDÉNTICA a la que pusiste en CLAVE_SECRETA de correo.gs. */
+const MAIL_API_URL = "https://script.google.com/macros/s/AKfycbyTTJXya83fCKsSMXy6LmyDV6k2WbLc21QVJ8Q4ezxBvFP4VPPYmY_DK4c8HWmXI7rbzQ/exec";
+const MAIL_API_CLAVE = "3457";
 
 /* ===== Utilidades (equivalentes a las del .gs) ===== */
 function generarId(prefijo) {
@@ -49,11 +59,9 @@ async function esperarSesion() {
 }
 
 /* ===== Notificaciones / correo =====
-   Firestore no envía correos por sí solo. Estas funciones escriben
-   un documento en la colección "mail"; si instalas la extensión oficial
-   "Trigger Email from Firestore" (ver guía), ese documento se convierte
-   automáticamente en un correo real. Si no la instalas, simplemente no
-   se enviará nada, pero el resto de la app funciona igual. */
+   Cada vez que se crea un módulo, deseo o evento, se llama a
+   encolarCorreo(), que manda la petición al Apps Script de correo
+   (correo.gs) para que la envíe de verdad con MailApp/Gmail. */
 async function registrarNotif(tipo, destinatario, asunto, eventoId, estado) {
   try {
     await db.collection(COL.notificaciones).add({
@@ -92,16 +100,31 @@ async function obtenerDestinatarios(campoTipo) {
 
 async function encolarCorreo(destinatarios, asunto, html) {
   const lista = (Array.isArray(destinatarios) ? destinatarios : [destinatarios]).filter(validarEmail);
-  if (!lista.length) return;
-  await Promise.all(
-    lista.map((to) =>
-      db.collection(COL.mail).add({
-        to,
-        message: { subject: asunto, html },
-        createdAt: nowISO()
+  if (!lista.length) return { ok: true, enviados: 0 };
+
+  if (!MAIL_API_URL || MAIL_API_URL.includes("PEGA_AQUI")) {
+    console.warn("MAIL_API_URL no está configurado en firebase-logic.js; no se envió el correo:", asunto);
+    return { ok: false, error: "MAIL_API_URL no configurado" };
+  }
+
+  try {
+    // Content-Type: text/plain evita que el navegador mande una petición
+    // OPTIONS (preflight) que Apps Script no responde bien.
+    const r = await fetch(MAIL_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        clave: MAIL_API_CLAVE,
+        destinatarios: lista,
+        asunto,
+        html
       })
-    )
-  );
+    });
+    return await r.json();
+  } catch (e) {
+    console.error("Error enviando correo vía Apps Script:", e);
+    return { ok: false, error: e.message };
+  }
 }
 
 async function notificarNuevaFecha(ev) {
@@ -429,7 +452,12 @@ async function enviarPruebaResponsable(d) {
   });
 
   try {
-    await encolarCorreo([email], "💜 Prueba — Deseos de Bartolita", html);
+    const resultado = await encolarCorreo([email], "💜 Prueba — Deseos de Bartolita", html);
+    if (!resultado || !resultado.ok) {
+      const error = (resultado && resultado.error) || "No se pudo enviar";
+      await registrarNotif("prueba_responsable", email, "Prueba a " + email, "", "ERROR: " + error);
+      return { ok: false, error };
+    }
     await registrarNotif("prueba_responsable", email, "Prueba a " + email, "", "OK");
     return { ok: true };
   } catch (e) {

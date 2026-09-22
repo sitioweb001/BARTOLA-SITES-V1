@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>💜 Deseos de Bartolita</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💜</text></svg>">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="theme-color" content="#6B4C8F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -75,6 +78,37 @@ header.topbar{
   box-shadow: 0 12px 26px var(--shadow-fuerte);
 }
 .icon-btn:active{ transform:scale(0.95); }
+
+/* Banner de instalación PWA */
+.instalar-banner{
+  position:fixed; left:12px; right:12px; bottom:12px; z-index:80;
+  max-width:460px; margin:0 auto;
+  display:flex; align-items:center; gap:12px;
+  background: linear-gradient(135deg, var(--lila-8), var(--lila-6));
+  color:#fff; padding:14px 14px 14px 16px; border-radius:18px;
+  box-shadow: 0 12px 32px var(--shadow-fuerte);
+  animation: subirBanner 0.35s ease;
+}
+@keyframes subirBanner{ from{ transform:translateY(30px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+.instalar-banner[hidden]{ display:none; }
+.instalar-banner__icono{ font-size:1.6rem; flex-shrink:0; }
+.instalar-banner__texto{ display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
+.instalar-banner__texto strong{ font-family:var(--f-hand); font-size:1.15rem; line-height:1.1; }
+.instalar-banner__texto span{ font-size:0.8rem; opacity:0.9; }
+.instalar-banner__btn{
+  background:#fff; color:var(--lila-8); border:none; border-radius:12px;
+  padding:10px 16px; font-weight:700; font-family:var(--f-body);
+  font-size:0.85rem; cursor:pointer; flex-shrink:0; white-space:nowrap;
+}
+.instalar-banner__btn:active{ transform:scale(0.96); }
+.instalar-banner__cerrar{
+  background:transparent; border:none; color:#fff; opacity:0.75;
+  font-size:1.1rem; cursor:pointer; padding:4px; flex-shrink:0;
+}
+@media (max-width:480px){
+  .instalar-banner{ left:8px; right:8px; bottom:8px; padding:12px; }
+  .instalar-banner__texto span{ display:none; }
+}
 .hero{
   text-align:center; padding: 34px 20px 20px;
   max-width:900px; margin: 0 auto; position:relative; z-index:2;
@@ -817,8 +851,21 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
     <button class="drawer__item" id="drawer-nuevo-evento">
       <span class="emoji">📅</span> Agendar momento
     </button>
+    <button class="drawer__item" id="drawer-instalar" hidden>
+      <span class="emoji">⬇️</span> Instalar app
+    </button>
   </nav>
 </aside>
+
+<div class="instalar-banner" id="instalar-banner" hidden>
+  <span class="instalar-banner__icono">💜</span>
+  <div class="instalar-banner__texto">
+    <strong id="instalar-banner-titulo">Instala Deseos de Bartolita</strong>
+    <span id="instalar-banner-sub">Ábrela como app, directo desde tu pantalla de inicio.</span>
+  </div>
+  <button class="instalar-banner__btn" id="instalar-banner-btn">Instalar</button>
+  <button class="instalar-banner__cerrar" id="instalar-banner-cerrar" aria-label="Cerrar">✕</button>
+</div>
 
 <section class="hero">
   <h1>💜 Deseos de Bartolita 💜</h1>
@@ -2146,6 +2193,87 @@ function inicializar(){
 }
 
 document.addEventListener("DOMContentLoaded", inicializar);
+
+/* =====================================================
+   💜 INSTALAR COMO APP (PWA)
+   ===================================================== */
+let promptDiferido = null;
+
+function appYaInstalada(){
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+function esIOS(){
+  return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+}
+
+function mostrarBannerInstalar(modo){
+  if (appYaInstalada() || sessionStorage.getItem("bartolita_banner_cerrado")) return;
+  const banner = $("instalar-banner");
+  const btn = $("instalar-banner-btn");
+  if (modo === "ios"){
+    $("instalar-banner-sub").textContent = "Toca Compartir ⬆️ y luego 'Agregar a inicio'";
+    btn.textContent = "¿Cómo?";
+  } else {
+    $("instalar-banner-sub").textContent = "Ábrela como app, directo desde tu pantalla de inicio.";
+    btn.textContent = "Instalar";
+  }
+  banner.hidden = false;
+}
+function ocultarBannerInstalar(){
+  $("instalar-banner").hidden = true;
+}
+
+// Chrome/Android/Edge/Desktop: el navegador avisa cuando la app es instalable
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  promptDiferido = e;
+  $("drawer-instalar").hidden = false;
+  mostrarBannerInstalar("android");
+});
+
+async function instalarApp(){
+  if (esIOS()){
+    toast("En iPhone: toca Compartir ⬆️ y luego 'Agregar a pantalla de inicio' 💜");
+    return;
+  }
+  if (!promptDiferido){
+    toast("Tu navegador aún no ofrece instalación automática. Usa el menú ⋮ → 'Instalar app'.");
+    return;
+  }
+  promptDiferido.prompt();
+  const eleccion = await promptDiferido.userChoice;
+  if (eleccion.outcome === "accepted") toast("¡Instalando Deseos de Bartolita! 💜", "ok");
+  promptDiferido = null;
+  ocultarBannerInstalar();
+  $("drawer-instalar").hidden = true;
+}
+
+$("instalar-banner-btn").addEventListener("click", instalarApp);
+$("drawer-instalar").addEventListener("click", () => { cerrarDrawer(); instalarApp(); });
+$("instalar-banner-cerrar").addEventListener("click", () => {
+  ocultarBannerInstalar();
+  sessionStorage.setItem("bartolita_banner_cerrado", "1");
+});
+
+window.addEventListener("appinstalled", () => {
+  toast("¡App instalada con éxito! 💜", "ok");
+  ocultarBannerInstalar();
+  $("drawer-instalar").hidden = true;
+});
+
+// iPhone/iPad no dispara beforeinstallprompt: mostramos instrucciones aparte
+if (esIOS() && !appYaInstalada()){
+  $("drawer-instalar").hidden = false;
+  setTimeout(() => mostrarBannerInstalar("ios"), 1200);
+}
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch((err) => {
+      console.warn("No se pudo registrar el service worker:", err);
+    });
+  });
+}
 </script>
 </body>
 </html>
