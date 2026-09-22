@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>💜 Deseos de Bartolita</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💜</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --lila-1:#FBF8FE; --lila-2:#F4ECFC; --lila-3:#E9D9F8;
+  --lila-4:#D4B8EC; --lila-5:#B892DB; --lila-6:#9370B8;
+  --lila-7:#6B4C8F; --lila-8:#4A3467;
+  --blanco:#FFFFFF; --paper:#FEFCFE;
+  --rosa-suave:#FBEAF4; --rosa:#F2C4DD;
+  --texto:#3B2A52; --texto-suave:#7A6B92;
+  --urgente:#E8748F; --importante:#E8B556;
+  --puede-esperar:#7FC8A0; --sin-prioridad:#B8A8D0;
+  --shadow: rgba(126,90,160,0.14);
+  --shadow-fuerte: rgba(126,90,160,0.26);
+  --f-hand:'Caveat',cursive; --f-body:'Quicksand',sans-serif;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--f-body); color:var(--texto);
+  background:
+    radial-gradient(circle at 8% 4%, rgba(200,162,224,0.4) 0%, transparent 45%),
+    radial-gradient(circle at 92% 8%, rgba(251,234,244,0.6) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(226,210,247,0.5) 0%, transparent 55%),
+    linear-gradient(180deg, var(--lila-1) 0%, var(--blanco) 45%, var(--lila-2) 100%);
+  background-attachment: fixed;
+  min-height:100vh; padding-bottom:60px; overflow-x:hidden;
+}
+.particula{
+  position:fixed; pointer-events:none; z-index:1; opacity:0.6;
+  animation: flotarUp linear infinite;
+}
+@keyframes flotarUp{
+  0%{ transform: translateY(105vh) rotate(0deg) scale(0.5); opacity:0; }
+  15%{ opacity:0.7; }
+  100%{ transform: translateY(-8vh) rotate(360deg) scale(1); opacity:0; }
+}
+header.topbar{
+  position:sticky; top:0; z-index:60;
+  background: linear-gradient(135deg, rgba(251,248,254,0.95), rgba(233,217,248,0.92));
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(200,162,224,0.4);
+  box-shadow: 0 6px 24px var(--shadow);
+  padding: 12px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.topbar__logo{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--f-hand); font-size:1.4rem; font-weight:700;
+  color:var(--lila-8); flex:1; min-width:0;
+}
+.topbar__logo span.corazon{ font-size:1.6rem; animation: latidoCorazon 2.4s ease-in-out infinite; }
+@keyframes latidoCorazon{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.15); } }
+.topbar__logo .titulo{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.icon-btn{
+  width:44px; height:44px; border-radius:14px; border:none;
+  background: rgba(255,255,255,0.7); color:var(--lila-7);
+  cursor:pointer; font-size:1.25rem; font-weight:700;
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 6px 16px var(--shadow);
+  -webkit-tap-highlight-color:transparent;
+}
+.icon-btn:hover{
+  background: linear-gradient(135deg,var(--lila-4),var(--lila-6));
+  color:#fff; transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 26px var(--shadow-fuerte);
+}
+.icon-btn:active{ transform:scale(0.95); }
+.hero{
+  text-align:center; padding: 34px 20px 20px;
+  max-width:900px; margin: 0 auto; position:relative; z-index:2;
+}
+.hero h1{
+  font-family:var(--f-hand);
+  font-size:clamp(2.4rem,7vw,4rem);
+  color:var(--lila-8); line-height:1.05; margin-bottom:8px;
+  text-shadow: 0 3px 22px rgba(200,162,224,0.5);
+}
+.hero p{ color:var(--texto-suave); font-size:clamp(0.95rem,2.2vw,1.1rem); max-width:520px; margin:0 auto; }
+.tabs{
+  max-width:900px; margin: 22px auto 0; padding: 0 16px;
+  display:flex; gap:10px; position:relative; z-index:2;
+}
+.tab{
+  flex:1; padding: 14px 18px; border:none; border-radius:18px;
+  background: rgba(255,255,255,0.65); color:var(--lila-7);
+  font-family:var(--f-body); font-weight:700; font-size:0.95rem;
+  cursor:pointer;
+  transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 8px 20px var(--shadow);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  -webkit-tap-highlight-color:transparent;
+  border:1px solid rgba(200,162,224,0.3);
+}
+.tab:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px var(--shadow-fuerte); }
+.tab.activo{
+  background: linear-gradient(135deg,var(--lila-4),var(--lila-6));
+  color:#fff; box-shadow: 0 12px 28px var(--shadow-fuerte);
+}
+.tab .emoji{ font-size:1.2em; }
+main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z-index:2; }
+.vista{ display:none; animation: aparecer 0.5s ease; }
+.vista.activa{ display:block; }
+@keyframes aparecer{ from{ opacity:0; transform: translateY(18px); } to{ opacity:1; transform: translateY(0); } }
+.titulo-seccion{
+  font-family:var(--f-hand);
+  font-size:clamp(1.8rem,4.5vw,2.4rem);
+  color:var(--lila-8); margin-bottom:6px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.subtitulo-seccion{ color:var(--texto-suave); font-size:0.95rem; margin-bottom:20px; }
+.btn{
+  border:none; cursor:pointer; font-family:var(--f-body); font-weight:700;
+  font-size:0.95rem; padding: 12px 22px; border-radius: 999px;
+  background: linear-gradient(135deg,var(--lila-4),var(--lila-6));
+  color:#fff; box-shadow: 0 10px 24px var(--shadow-fuerte);
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;
+}
+.btn:hover:not(:disabled){ transform: translateY(-2px); box-shadow: 0 14px 32px var(--shadow-fuerte); filter:brightness(1.05); }
+.btn:active:not(:disabled){ transform: translateY(0) scale(0.97); }
+.btn:disabled{ opacity:0.6; cursor:not-allowed; }
+.btn--bloque{ width:100%; margin-top:18px; }
+.btn--sm{ padding: 8px 16px; font-size:0.85rem; }
+.btn--ghost{ background: rgba(255,255,255,0.8); color:var(--lila-7); box-shadow: 0 6px 14px var(--shadow); }
+.btn--ghost:hover:not(:disabled){ background: var(--lila-2); }
+.btn--peligro{ background: linear-gradient(135deg,#F2A3B4,var(--urgente)); }
+.btn--cumplido{ background: linear-gradient(135deg,#A8DCC0,var(--puede-esperar)); }
+.btn.cargando{ pointer-events:none; opacity:0.85; }
+.btn.cargando::after{
+  content:""; position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  width:16px;height:16px;
+  border:2px solid rgba(255,255,255,0.5); border-top-color:#fff;
+  border-radius:50%; animation: girar 0.7s linear infinite;
+}
+@keyframes girar{ to{ transform:rotate(360deg) translateY(-50%);} }
+
+.modulos-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 20px; margin-top: 20px; }
+.modulo{
+  background: linear-gradient(160deg, rgba(255,255,255,0.96), rgba(244,236,252,0.9));
+  border: 1px solid rgba(200,162,224,0.4); border-radius: 24px; padding: 20px;
+  box-shadow: 0 14px 34px var(--shadow);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s; animation: entrarSuave 0.55s cubic-bezier(.34,1.56,.64,1);
+  position:relative; overflow:hidden;
+}
+.modulo::before{
+  content:""; position:absolute; top:-50%; right:-30%;
+  width:220px; height:220px;
+  background: radial-gradient(circle, rgba(212,184,236,0.45), transparent 70%);
+  pointer-events:none;
+}
+.modulo:hover{ transform: translateY(-3px); box-shadow: 0 20px 44px var(--shadow-fuerte); }
+@keyframes entrarSuave{ from{ opacity:0; transform: translateY(20px) scale(0.96); } to{ opacity:1; transform: translateY(0) scale(1); } }
+.modulo__header{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:16px; position:relative; z-index:1; }
+.modulo__titulo{
+  font-family:var(--f-hand); font-size:1.5rem;
+  color:var(--lila-8); font-weight:700; line-height:1.2;
+  display:flex; align-items:center; gap:8px; flex:1;
+}
+.modulo__desc{ font-size:0.85rem; color:var(--texto-suave); margin-top:4px; }
+.menu-btn{
+  width:32px; height:32px; border-radius:10px; border:none;
+  background: rgba(200,162,224,0.2); color:var(--lila-7);
+  cursor:pointer; font-size:1.1rem; font-weight:700;
+  transition: all 0.2s; flex-shrink:0;
+}
+.menu-btn:hover{ background:var(--lila-4); color:#fff; }
+.menu-dropdown{
+  position:absolute; top:44px; right:12px;
+  background:#fff; border-radius:14px;
+  box-shadow: 0 14px 34px var(--shadow-fuerte);
+  padding:6px; z-index:20; min-width:170px;
+  display:none; border:1px solid rgba(200,162,224,0.3);
+}
+.menu-dropdown.abierto{ display:block; animation: aparecerMenu 0.2s ease; }
+@keyframes aparecerMenu{ from{ opacity:0; transform: translateY(-6px) scale(0.96); } to{ opacity:1; transform: translateY(0) scale(1); } }
+.menu-dropdown button{
+  width:100%; text-align:left; padding:10px 14px;
+  background:none; border:none; border-radius:10px;
+  font-family:var(--f-body); font-weight:600; font-size:0.9rem;
+  color:var(--texto); cursor:pointer; transition: background 0.15s;
+}
+.menu-dropdown button:hover{ background: var(--lila-2); }
+.menu-dropdown button.peligro{ color: var(--urgente); }
+.menu-dropdown button.peligro:hover{ background: #FCE4EA; }
+.deseos-lista{ display:flex; flex-direction:column; gap:12px; position:relative; z-index:1; }
+.deseo{
+  background: #fff; border-radius:16px; padding: 14px 16px;
+  border-left: 5px solid var(--sin-prioridad);
+  box-shadow: 0 6px 16px var(--shadow);
+  transition: all 0.25s;
+  animation: entrarSuave 0.4s ease;
+}
+.deseo[data-prioridad="🔴 Urgente"]{ border-left-color: var(--urgente); background: linear-gradient(90deg, #FEF1F4, #fff 30%); }
+.deseo[data-prioridad="🟡 Importante"]{ border-left-color: var(--importante); background: linear-gradient(90deg, #FEF6E6, #fff 30%); }
+.deseo[data-prioridad="🟢 Puede esperar"]{ border-left-color: var(--puede-esperar); background: linear-gradient(90deg, #EEF9F3, #fff 30%); }
+.deseo[data-prioridad="⚪ Sin prioridad"]{ border-left-color: var(--sin-prioridad); }
+.deseo__fila{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
+.deseo__titulo{
+  font-weight:700; color:var(--lila-8); font-size:1rem;
+  display:flex; align-items:center; gap:8px; flex:1; min-width:0;
+}
+.deseo__num{ font-family:var(--f-hand); font-size:1.3rem; color:var(--lila-5); font-weight:700; flex-shrink:0; }
+.deseo__badge{
+  display:inline-block; padding:3px 10px; border-radius:999px;
+  font-size:0.7rem; font-weight:700; white-space:nowrap;
+  background: var(--lila-2); color: var(--lila-7);
+}
+.deseo[data-prioridad="🔴 Urgente"] .deseo__badge{ background:#FBD5DE; color:#8A2C44; }
+.deseo[data-prioridad="🟡 Importante"] .deseo__badge{ background:#FBEDCE; color:#8A6320; }
+.deseo[data-prioridad="🟢 Puede esperar"] .deseo__badge{ background:#D6F0E2; color:#2F6E4E; }
+.deseo__desc{ font-size:0.85rem; color:var(--texto-suave); margin-top:6px; line-height:1.5; }
+.deseo__acciones{ display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.deseo__acciones .mini-btn{
+  border:none; padding:6px 12px; border-radius:999px;
+  font-family:var(--f-body); font-weight:600; font-size:0.78rem;
+  cursor:pointer; background: var(--lila-2); color: var(--lila-7);
+  transition: all 0.2s;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.deseo__acciones .mini-btn:hover{ background:var(--lila-4); color:#fff; transform:translateY(-1px); }
+.deseo__acciones .mini-btn.del:hover{ background: var(--urgente); }
+.deseo__acciones .mini-btn.copiado{ background: var(--puede-esperar); color: #fff; }
+.modulo__footer{
+  margin-top:16px; padding-top:14px;
+  border-top: 1px dashed rgba(200,162,224,0.5);
+  position:relative; z-index:1;
+}
+.btn-add-deseo{
+  width:100%; padding:10px;
+  border:2px dashed rgba(200,162,224,0.6);
+  border-radius:14px;
+  background:rgba(255,255,255,0.5);
+  color:var(--lila-6); font-weight:700;
+  cursor:pointer; transition: all 0.25s;
+  font-family:var(--f-body); font-size:0.9rem;
+}
+.btn-add-deseo:hover{
+  background: var(--lila-2); border-color: var(--lila-5);
+  color:var(--lila-8); transform: translateY(-1px);
+}
+.vacio-msg{ text-align:center; padding: 40px 20px; color: var(--texto-suave); font-style:italic; }
+.vacio-msg .emoji{ display:block; font-size:3rem; margin-bottom:10px; font-style:normal; }
+
+.fecha-grande{
+  text-align:center; padding: 24px 20px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(233,217,248,0.75));
+  border:1px solid rgba(200,162,224,0.4);
+  box-shadow: 0 16px 40px var(--shadow);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  margin-bottom: 22px; position:relative; overflow:hidden;
+}
+.fecha-grande::after{
+  content:""; position:absolute; top:-30%; right:-10%;
+  width:180px;height:180px;
+  background: radial-gradient(circle, rgba(242,196,221,0.5), transparent 70%);
+  pointer-events:none;
+}
+.fecha-grande__dia{
+  font-family:var(--f-hand); font-size: clamp(4rem,15vw,7rem);
+  line-height:0.9; color:var(--lila-7); font-weight:700;
+  position:relative; z-index:1;
+}
+.fecha-grande__mes{
+  font-size: clamp(1rem,3vw,1.3rem); font-weight:700; letter-spacing:0.3em;
+  color:var(--lila-6); text-transform:uppercase; position:relative; z-index:1;
+}
+.fecha-grande__anio{ font-size:0.9rem; color:var(--texto-suave); letter-spacing:0.15em; position:relative; z-index:1; }
+.fecha-grande__dia-sem{ margin-top:6px; font-weight:600; color:var(--lila-5); font-style:italic; position:relative; z-index:1; }
+
+.calendario{
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(251,248,254,0.92));
+  border:1px solid rgba(200,162,224,0.4); border-radius: 26px; padding: 20px;
+  box-shadow: 0 16px 40px var(--shadow);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.calendario__header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:10px; }
+.calendario__mes{
+  font-family:var(--f-hand); font-size: clamp(1.5rem,4vw,2rem);
+  color:var(--lila-8); font-weight:700; text-transform:capitalize; text-align:center; flex:1;
+}
+.nav-btn{
+  width:42px;height:42px; border-radius:12px; border:none;
+  background: var(--lila-2); color: var(--lila-7);
+  font-size:1.2rem; font-weight:700; cursor:pointer;
+  transition: all 0.2s;
+}
+.nav-btn:hover{ background: var(--lila-4); color:#fff; transform:scale(1.08); }
+.calendario__dias-sem{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:8px; }
+.calendario__dias-sem div{
+  text-align:center; font-size:0.72rem; font-weight:700;
+  color:var(--lila-5); text-transform:uppercase;
+  letter-spacing:0.08em; padding: 6px 0;
+}
+.calendario__grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
+.dia{
+  aspect-ratio:1; border-radius:14px; border:none;
+  background: rgba(244,236,252,0.7); color: var(--texto);
+  font-family:var(--f-body); font-weight:700; font-size:0.92rem;
+  cursor:pointer;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  padding:0;
+}
+.dia:hover{ background: var(--lila-3); transform:translateY(-2px) scale(1.06); box-shadow: 0 8px 18px var(--shadow); }
+.dia.vacio{ background:transparent; cursor:default; pointer-events:none; }
+.dia.hoy{
+  background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
+  color:#fff; box-shadow: 0 8px 20px rgba(126,90,160,0.45);
+}
+.dia.finde{ background: linear-gradient(135deg, #FDE8F1, var(--rosa)); color:#8A4168; }
+.dia.finde:hover{ background: linear-gradient(135deg, #FBD5E4, #EBAFCE); }
+.dia.con-evento::after{
+  content:""; position:absolute; bottom:5px;
+  width:7px;height:7px; border-radius:50%;
+  background: var(--lila-6);
+  box-shadow: 0 0 8px rgba(147,112,184,0.6);
+}
+.dia.hoy.con-evento::after, .dia.seleccionado.con-evento::after{ background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.9); }
+.dia.cumplido::before{
+  content:"✓"; position:absolute; top:3px; right:5px;
+  font-size:0.65rem; font-weight:900; color: var(--puede-esperar);
+}
+.dia.seleccionado{
+  background: linear-gradient(135deg, var(--lila-5), var(--lila-7));
+  color:#fff; transform: scale(1.1);
+  box-shadow: 0 12px 26px rgba(126,90,160,0.55); z-index:2;
+}
+.dia.pulse{ animation: pulseDia 0.7s ease; }
+@keyframes pulseDia{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.25); box-shadow: 0 14px 32px rgba(200,162,224,0.75); } }
+
+.eventos-dia{ margin-top: 22px; }
+.eventos-dia__titulo{ font-family:var(--f-hand); font-size:1.5rem; color:var(--lila-8); font-weight:700; margin-bottom:12px; }
+.evento{
+  background: linear-gradient(135deg, #fff, rgba(244,236,252,0.7));
+  border:1px solid rgba(200,162,224,0.4); border-left:5px solid var(--lila-5);
+  border-radius:18px; padding:16px 18px; margin-bottom:12px;
+  box-shadow: 0 10px 24px var(--shadow);
+  animation: entrarSuave 0.5s ease; position:relative;
+}
+.evento.cumplido{ opacity:0.75; border-left-color: var(--puede-esperar); background: linear-gradient(135deg, #EEF9F3, #fff); }
+.evento.cumplido .evento__titulo{ text-decoration: line-through; text-decoration-color: var(--puede-esperar); text-decoration-thickness: 2px; }
+.evento__titulo{
+  font-weight:700; color:var(--lila-8); font-size:1.05rem;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.evento__tipo{
+  display:inline-block; padding:3px 10px; border-radius:999px;
+  font-size:0.72rem; font-weight:700;
+  background: var(--lila-2); color: var(--lila-7);
+}
+.evento__hora, .evento__lugar{ font-size:0.85rem; color: var(--lila-6); font-weight:600; margin-top:6px; }
+.evento__lugar{ color: var(--texto-suave); margin-top:4px; }
+.evento__desc{ font-size:0.88rem; color: var(--texto-suave); margin-top:8px; line-height:1.5; font-style:italic; }
+.evento__deseo{
+  margin-top:10px; padding:8px 12px;
+  background: var(--lila-2); border-radius:12px;
+  font-size:0.82rem; color: var(--lila-7);
+  display:inline-flex; align-items:center; gap:6px;
+}
+.evento__acciones{ display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+
+.modal-fondo{
+  position:fixed; inset:0;
+  background: rgba(59,42,82,0.55);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  z-index:200; display:flex; align-items:center; justify-content:center;
+  padding: 16px; opacity:0; pointer-events:none;
+  transition: opacity 0.3s;
+}
+.modal-fondo.visible{ opacity:1; pointer-events:all; }
+.modal{
+  background: rgba(255,255,255,0.96);
+  border-radius:26px; width:100%; max-width: 500px;
+  max-height: 92vh; overflow-y:auto;
+  padding: 26px 24px;
+  box-shadow: 0 30px 70px rgba(59,42,82,0.4);
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+  position:relative;
+}
+.modal-fondo.visible .modal{ transform: scale(1) translateY(0); }
+.modal--grande{ max-width: 900px; max-height: 95vh; padding:0; overflow:hidden; display:flex; flex-direction:column; }
+.modal__cerrar{
+  position:absolute; top:14px; right:14px;
+  width:38px;height:38px; border-radius:50%; border:none;
+  background: var(--lila-2); color:var(--lila-7);
+  font-size:1.25rem; cursor:pointer;
+  transition: all 0.25s; z-index:2;
+}
+.modal__cerrar:hover{ background:var(--urgente); color:#fff; transform:rotate(90deg); }
+.modal__titulo{
+  font-family:var(--f-hand); font-size:1.9rem;
+  color:var(--lila-8); font-weight:700; text-align:center; margin-bottom: 6px;
+}
+.modal__sub{ text-align:center; color:var(--texto-suave); font-size:0.85rem; margin-bottom:20px; }
+.campo{ margin-bottom:14px; }
+.campo label{
+  display:block; font-size:0.82rem; font-weight:700;
+  color:var(--lila-8); margin-bottom:6px; letter-spacing:0.02em;
+}
+.campo input, .campo textarea, .campo select{
+  width:100%; padding: 12px 15px;
+  border:1.5px solid rgba(200,162,224,0.5);
+  border-radius:14px;
+  font-family:var(--f-body); font-size:0.92rem;
+  color:var(--texto); background: rgba(255,255,255,0.9);
+  transition: all 0.2s; outline:none;
+}
+.campo input:focus, .campo textarea:focus, .campo select:focus{
+  border-color: var(--lila-5);
+  box-shadow: 0 0 0 4px rgba(200,162,224,0.25);
+  background:#fff;
+}
+.campo textarea{ resize:vertical; min-height:70px; }
+.campo-fila{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.check{
+  display:flex; align-items:center; gap:10px;
+  padding: 12px 15px; background: var(--lila-2);
+  border-radius:14px; cursor:pointer;
+  font-size:0.9rem; font-weight:600; color:var(--lila-8);
+}
+.check input{ width:auto; margin:0; }
+.modal__acciones{ display:flex; gap:10px; margin-top:20px; }
+.modal__acciones .btn{ flex:1; }
+
+.preview-header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--lila-3), var(--lila-4));
+  color: #fff;
+  font-family:var(--f-hand); font-size:1.3rem; font-weight:700;
+}
+.preview-header .url{
+  font-family:var(--f-body); font-size:0.75rem; font-weight:500;
+  opacity:0.9; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:60%;
+}
+.preview-header button{
+  width:34px;height:34px; border-radius:50%; border:none;
+  background: rgba(255,255,255,0.25); color:#fff;
+  font-size:1.2rem; cursor:pointer;
+}
+.preview-header button:hover{ background: rgba(255,255,255,0.4); }
+.preview-body{
+  flex:1; position:relative; background:#f7f4fb;
+  min-height: 400px;
+  display:flex; align-items:center; justify-content:center;
+}
+.preview-body iframe{ width:100%; height: 65vh; border:none; background:#fff; }
+.preview-bloqueado{
+  text-align:center; padding: 40px 24px;
+  color: var(--texto-suave); max-width: 400px;
+}
+.preview-bloqueado .emoji{ font-size: 3rem; display:block; margin-bottom: 14px; }
+.preview-bloqueado h3{ font-family:var(--f-hand); font-size:1.6rem; color:var(--lila-7); margin-bottom:10px; }
+
+.drawer-fondo{
+  position:fixed; inset:0;
+  background: rgba(59,42,82,0.4);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  z-index: 150; opacity:0; pointer-events:none;
+  transition: opacity 0.3s;
+}
+.drawer-fondo.abierto{ opacity:1; pointer-events:all; }
+.drawer{
+  position:fixed; top:0; left:0; bottom:0;
+  width: min(320px, 82vw);
+  background: linear-gradient(180deg, #fff, var(--lila-1));
+  box-shadow: 6px 0 40px rgba(59,42,82,0.25);
+  z-index: 151; transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(.34,1.2,.4,1);
+  display:flex; flex-direction:column; padding: 20px;
+  overflow-y: auto;
+}
+.drawer.abierto{ transform: translateX(0); }
+.drawer__header{ display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; }
+.drawer__titulo{ font-family: var(--f-hand); font-size:1.6rem; color: var(--lila-8); font-weight:700; }
+.drawer__menu{ display:flex; flex-direction:column; gap:6px; }
+.drawer__item{
+  padding:14px 16px; border-radius:14px; border:none;
+  background: transparent; text-align:left;
+  font-family:var(--f-body); font-weight:600; font-size:0.95rem;
+  color: var(--texto); cursor:pointer;
+  transition: all 0.2s;
+  display:flex; align-items:center; gap:12px;
+}
+.drawer__item:hover{ background: var(--lila-2); transform: translateX(4px); }
+.drawer__item.activo{
+  background: linear-gradient(135deg, var(--lila-3), var(--lila-4));
+  color: var(--lila-8); font-weight:700;
+}
+.drawer__item .emoji{ font-size:1.2em; }
+.drawer__separador{ height:1px; background: rgba(200,162,224,0.4); margin: 14px 4px; }
+.drawer__seccion{
+  font-size:0.72rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:0.1em; color: var(--lila-5);
+  padding: 10px 14px 6px;
+}
+
+.bartolo-header{
+  background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
+  color:#fff; padding: 22px; border-radius: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 14px 34px var(--shadow-fuerte);
+  position:relative; overflow:hidden;
+}
+.bartolo-header::before{
+  content:"👑"; position:absolute; top:12px; right:16px;
+  font-size:2.4rem; opacity:0.3;
+}
+.bartolo-header h2{ font-family: var(--f-hand); font-size: 2rem; font-weight: 700; margin-bottom: 4px; }
+.bartolo-header p{ font-size: 0.9rem; opacity: 0.95; }
+.bartolo-stats{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
+  gap:12px; margin-bottom: 22px;
+}
+.stat-card{
+  background: rgba(255,255,255,0.9);
+  border:1px solid rgba(200,162,224,0.4);
+  border-radius:18px; padding: 16px;
+  text-align:center;
+  box-shadow: 0 10px 22px var(--shadow);
+}
+.stat-card__num{ font-family:var(--f-hand); font-size:2.4rem; font-weight:700; color: var(--lila-6); line-height:1; }
+.stat-card__label{
+  font-size:0.78rem; color: var(--texto-suave);
+  text-transform:uppercase; letter-spacing:0.05em;
+  margin-top:4px; font-weight:600;
+}
+.filtros-bartolo{ display:flex; gap:8px; margin-bottom: 18px; flex-wrap:wrap; }
+.filtro-chip{
+  padding: 8px 16px; border-radius:999px;
+  border: 1px solid rgba(200,162,224,0.5);
+  background: rgba(255,255,255,0.7);
+  color: var(--lila-7); font-weight:600; font-size:0.82rem;
+  cursor:pointer; transition: all 0.2s;
+}
+.filtro-chip:hover{ background: var(--lila-2); }
+.filtro-chip.activo{
+  background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
+  color:#fff; border-color: transparent;
+}
+.bartolo-lista{ display:flex; flex-direction:column; gap:14px; }
+.bartolo-item{
+  background: linear-gradient(135deg, #fff, rgba(244,236,252,0.7));
+  border:1px solid rgba(200,162,224,0.4);
+  border-radius:20px; padding: 18px 20px;
+  box-shadow: 0 12px 28px var(--shadow);
+  display:flex; gap:16px; align-items:flex-start;
+  animation: entrarSuave 0.5s ease; position:relative;
+}
+.bartolo-item.cumplido{ background: linear-gradient(135deg, #EEF9F3, #fff); border-color: rgba(127,200,160,0.5); }
+.bartolo-item__fecha{
+  background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
+  color:#fff; border-radius:16px; padding: 12px;
+  text-align:center; min-width: 74px; flex-shrink:0;
+  box-shadow: 0 8px 18px rgba(126,90,160,0.3);
+}
+.bartolo-item.cumplido .bartolo-item__fecha{ background: linear-gradient(135deg, #A8DCC0, var(--puede-esperar)); }
+.bartolo-item__fecha .d{ font-family:var(--f-hand); font-size:1.8rem; font-weight:700; line-height:1; }
+.bartolo-item__fecha .m{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; margin-top:2px; }
+.bartolo-item__info{ flex:1; min-width:0; }
+.bartolo-item__info h4{
+  font-size:1.05rem; color: var(--lila-8); margin-bottom:6px;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.bartolo-item__info .detalle{
+  font-size:0.85rem; color: var(--texto-suave);
+  margin-top:3px; display:flex; align-items:center; gap:6px;
+}
+.bartolo-item__deseo{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 12px; border-radius:999px;
+  background: var(--lila-2); color: var(--lila-7);
+  font-size:0.78rem; font-weight:600; margin-top:8px;
+}
+.bartolo-item__acciones{ display:flex; flex-direction:column; gap:6px; }
+
+/* RESPONSABLES */
+.tabla-responsables{
+  background:#fff;
+  border:1px solid rgba(200,162,224,0.4);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow: 0 10px 24px var(--shadow);
+}
+.tabla-responsables__header{
+  display:grid;
+  grid-template-columns: 2fr 1.2fr 2fr 1fr 1.2fr;
+  gap:10px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, var(--lila-3), var(--lila-4));
+  color:#fff;
+  font-weight:700;
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+.tabla-responsables__fila{
+  display:grid;
+  grid-template-columns: 2fr 1.2fr 2fr 1fr 1.2fr;
+  gap:10px;
+  padding: 14px 18px;
+  align-items:center;
+  border-top:1px solid rgba(200,162,224,0.25);
+  font-size:0.85rem;
+  transition: background 0.2s;
+}
+.tabla-responsables__fila:hover{ background: var(--lila-1); }
+.tabla-responsables__fila .email{ font-weight:600; color: var(--lila-8); word-break: break-all; font-size:0.82rem; }
+.tabla-responsables__fila .badges{ display:flex; flex-wrap:wrap; gap:4px; }
+.badge-notif{
+  display:inline-block; padding: 3px 8px; border-radius:999px;
+  background: var(--lila-2); color: var(--lila-7);
+  font-size:0.65rem; font-weight:700; white-space:nowrap;
+}
+.estado-chip{
+  display:inline-flex; align-items:center; gap:4px;
+  padding: 4px 10px; border-radius:999px;
+  font-size:0.72rem; font-weight:700;
+}
+.estado-chip.activo{ background:#D6F0E2; color:#2F6E4E; }
+.estado-chip.inactivo{ background:#EFE5F5; color:#7A6B92; }
+.acciones-resp{ display:flex; gap:6px; }
+.acciones-resp button{
+  width:32px;height:32px; border-radius:10px; border:none;
+  cursor:pointer; font-size:0.92rem; transition: all 0.2s;
+  background: var(--lila-2); color: var(--lila-7);
+}
+.acciones-resp button:hover{ background: var(--lila-4); color:#fff; transform:scale(1.1); }
+.acciones-resp button.peligro:hover{ background: var(--urgente); }
+.checks-grupo{
+  display:flex; flex-direction:column; gap:8px;
+  padding: 12px 14px; background: var(--lila-1);
+  border-radius:14px; border:1px solid rgba(200,162,224,0.3);
+}
+.check-item{
+  display:flex; align-items:center; gap:10px;
+  cursor:pointer; font-size:0.88rem; color: var(--texto); padding: 4px 0;
+}
+.check-item input{ width:auto; margin:0; cursor:pointer; }
+
+.btn-prueba-opcion{
+  display:flex; align-items:center; gap:14px;
+  width:100%; padding: 14px 16px;
+  background: var(--lila-1);
+  border: 1.5px solid rgba(200,162,224,0.4);
+  border-radius:16px; cursor:pointer;
+  transition: all 0.2s; text-align:left;
+  font-family: var(--f-body); color: var(--texto);
+}
+.btn-prueba-opcion:hover{ background: var(--lila-2); transform: translateY(-2px); }
+.btn-prueba-opcion .emoji{ font-size:1.6rem; }
+.btn-prueba-opcion strong{ display:block; font-size:0.95rem; color: var(--lila-8); }
+.btn-prueba-opcion small{ font-size:0.8rem; color: var(--texto-suave); }
+
+.toast{
+  position:fixed; bottom:24px; left:50%;
+  transform: translateX(-50%) translateY(120px);
+  background: linear-gradient(135deg, var(--lila-5), var(--lila-7));
+  color:#fff; padding: 14px 24px; border-radius:999px;
+  font-weight:600; font-size:0.9rem;
+  box-shadow: 0 16px 40px rgba(59,42,82,0.45);
+  z-index: 400; opacity:0;
+  transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+  max-width: 90vw; text-align:center;
+}
+.toast.visible{ transform: translateX(-50%) translateY(0); opacity:1; }
+.toast.error{ background: linear-gradient(135deg, #E8748F, #8A2C44); }
+.toast.ok{ background: linear-gradient(135deg, #7FC8A0, #2F6E4E); }
+
+.loader-overlay{
+  position:fixed; inset:0;
+  background: rgba(251,248,254,0.85);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  z-index: 500; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:16px;
+  opacity:0; pointer-events:none;
+  transition: opacity 0.25s;
+}
+.loader-overlay.visible{ opacity:1; pointer-events:all; }
+.loader-spinner{
+  width:56px; height:56px;
+  border:5px solid var(--lila-3); border-top-color: var(--lila-6);
+  border-radius:50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg);} }
+.loader-texto{ font-family: var(--f-hand); font-size:1.5rem; font-weight:700; color: var(--lila-6); }
+
+.skeleton{
+  background: linear-gradient(90deg, var(--lila-2) 25%, var(--lila-3) 50%, var(--lila-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 12px; height: 20px; margin: 8px 0;
+}
+@keyframes shimmer{ 0%{ background-position: 200% 0; } 100%{ background-position: -200% 0; } }
+
+.corazon-flotante{
+  position:fixed; font-size: 1.8rem;
+  pointer-events:none; z-index: 500;
+  animation: subirCorazon 2s ease-out forwards;
+}
+@keyframes subirCorazon{
+  0%{ transform: translateY(0) scale(0.3) rotate(0deg); opacity:1; }
+  30%{ transform: translateY(-100px) scale(1.1) rotate(20deg); opacity:1; }
+  100%{ transform: translateY(-400px) scale(0.7) rotate(-15deg); opacity:0; }
+}
+
+@media (max-width: 700px){
+  .tabla-responsables__header{ display:none; }
+  .tabla-responsables__fila{
+    grid-template-columns: 1fr;
+    gap:6px;
+    padding: 16px;
+  }
+  .tabla-responsables__fila > div::before{
+    content: attr(data-label);
+    display: block;
+    font-size:0.68rem;
+    font-weight:700;
+    color: var(--lila-5);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    margin-bottom:4px;
+  }
+}
+@media (max-width: 640px){
+  .topbar__logo{ font-size:1.15rem; }
+  .modulos-grid{ grid-template-columns: 1fr; }
+  .modal{ padding: 22px 18px; border-radius:22px; max-height:94vh; }
+  .modal--grande{ max-width:100%; }
+  .campo-fila{ grid-template-columns: 1fr; }
+  .hero{ padding: 26px 16px 16px; }
+  .tabs{ padding: 0 12px; }
+  .tab{ padding: 12px 10px; font-size:0.85rem; }
+  main{ padding: 18px 12px; }
+  .calendario{ padding: 14px; }
+  .dia{ font-size: 0.82rem; border-radius: 11px; }
+  .bartolo-item{ flex-direction: column; }
+  .bartolo-item__acciones{ flex-direction: row; width: 100%; }
+  .bartolo-item__acciones .btn{ flex:1; }
+}
+@media (max-width: 380px){
+  .topbar__logo .titulo{ font-size:0.95rem; }
+  .hero h1{ font-size: 2rem; }
+  .dia{ font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="particulas"></div>
+
+<div class="loader-overlay" id="loader-overlay">
+  <div class="loader-spinner"></div>
+  <div class="loader-texto" id="loader-texto">Cargando...</div>
+</div>
+
+<header class="topbar">
+  <div class="topbar__logo">
+    <button class="icon-btn" id="btn-menu" aria-label="Menú">☰</button>
+    <span class="corazon">💜</span>
+    <span class="titulo">Deseos de Bartolita</span>
+  </div>
+</header>
+
+<div class="drawer-fondo" id="drawer-fondo"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer__header">
+    <span class="drawer__titulo">💜 Bartolita</span>
+    <button class="icon-btn" id="btn-cerrar-drawer" style="box-shadow:none;background:transparent;">✕</button>
+  </div>
+
+  <div class="drawer__seccion">Principal</div>
+  <nav class="drawer__menu">
+    <button class="drawer__item activo" data-vista="deseos">
+      <span class="emoji">💜</span> Lista de deseos
+    </button>
+    <button class="drawer__item" data-vista="calendario">
+      <span class="emoji">📅</span> Nuestro calendario
+    </button>
+  </nav>
+
+  <div class="drawer__separador"></div>
+
+  <div class="drawer__seccion">Especial</div>
+  <nav class="drawer__menu">
+    <button class="drawer__item" data-vista="bartolo">
+      <span class="emoji">👑</span> Vista de Bartolo
+    </button>
+    <button class="drawer__item" data-vista="notificaciones">
+      <span class="emoji">🔔</span> Notificaciones
+    </button>
+  </nav>
+
+  <div class="drawer__separador"></div>
+
+  <div class="drawer__seccion">Acciones rápidas</div>
+  <nav class="drawer__menu">
+    <button class="drawer__item" id="drawer-nuevo-modulo">
+      <span class="emoji">＋</span> Nuevo módulo
+    </button>
+    <button class="drawer__item" id="drawer-nuevo-evento">
+      <span class="emoji">📅</span> Agendar momento
+    </button>
+  </nav>
+</aside>
+
+<section class="hero">
+  <h1>💜 Deseos de Bartolita 💜</h1>
+  <p>Un lugar para guardar nuestros deseos, planes y momentos juntos.</p>
+</section>
+
+<div class="tabs">
+  <button class="tab activo" data-vista="deseos"><span class="emoji">💜</span> Lista de deseos</button>
+  <button class="tab" data-vista="calendario"><span class="emoji">📅</span> Nuestro calendario</button>
+</div>
+
+<main>
+
+  <section class="vista activa" id="vista-deseos">
+    <h2 class="titulo-seccion">💜 Nuestra lista de deseos</h2>
+    <p class="subtitulo-seccion">Aquí guardamos esas cosas que queremos hacer, visitar, comprar o vivir juntos.</p>
+
+    <button class="btn btn--bloque" id="btn-nuevo-modulo">
+      <span>＋</span> Nuevo módulo
+    </button>
+
+    <div class="modulos-grid" id="modulos-grid">
+      <div class="modulo"><div class="skeleton" style="width:70%"></div><div class="skeleton"></div></div>
+      <div class="modulo"><div class="skeleton" style="width:60%"></div><div class="skeleton"></div></div>
+    </div>
+  </section>
+
+  <section class="vista" id="vista-calendario">
+    <h2 class="titulo-seccion">📅 Nuestro calendario</h2>
+    <p class="subtitulo-seccion">Para organizar nuestros próximos momentos juntos.</p>
+
+    <div class="fecha-grande" id="fecha-grande">
+      <div class="fecha-grande__dia" id="fg-dia">--</div>
+      <div class="fecha-grande__mes" id="fg-mes">---</div>
+      <div class="fecha-grande__anio" id="fg-anio">----</div>
+      <div class="fecha-grande__dia-sem" id="fg-dia-sem">---</div>
+    </div>
+
+    <div class="calendario">
+      <div class="calendario__header">
+        <button class="nav-btn" id="cal-prev">‹</button>
+        <div class="calendario__mes" id="cal-mes">—</div>
+        <button class="nav-btn" id="cal-next">›</button>
+      </div>
+      <div class="calendario__dias-sem">
+        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+      </div>
+      <div class="calendario__grid" id="cal-grid"></div>
+      <button class="btn btn--bloque" id="btn-agendar">
+        <span>💜</span> Agendar momento
+      </button>
+    </div>
+
+    <div class="eventos-dia">
+      <h3 class="eventos-dia__titulo">💕 Eventos del día</h3>
+      <div id="eventos-dia-lista"></div>
+    </div>
+  </section>
+
+  <section class="vista" id="vista-bartolo">
+    <div class="bartolo-header">
+      <h2>👑 Vista de Bartolo</h2>
+      <p>Vista privada para ti. Aquí ves todas las fechas, los deseos pendientes y marcas lo cumplido.</p>
+    </div>
+
+    <div class="bartolo-stats">
+      <div class="stat-card"><div class="stat-card__num" id="stat-total">0</div><div class="stat-card__label">Eventos</div></div>
+      <div class="stat-card"><div class="stat-card__num" id="stat-cumplidos">0</div><div class="stat-card__label">Cumplidos</div></div>
+      <div class="stat-card"><div class="stat-card__num" id="stat-pendientes">0</div><div class="stat-card__label">Pendientes</div></div>
+      <div class="stat-card"><div class="stat-card__num" id="stat-urgentes">0</div><div class="stat-card__label">Urgentes 🔴</div></div>
+    </div>
+
+    <div class="filtros-bartolo">
+      <button class="filtro-chip activo" data-filtro="todos">Todos</button>
+      <button class="filtro-chip" data-filtro="pendientes">Pendientes</button>
+      <button class="filtro-chip" data-filtro="cumplidos">Cumplidos</button>
+      <button class="filtro-chip" data-filtro="hoy">Hoy</button>
+    </div>
+
+    <div class="bartolo-lista" id="bartolo-lista"></div>
+  </section>
+
+  <section class="vista" id="vista-notificaciones">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:6px;">
+      <div>
+        <h2 class="titulo-seccion">🔔 Notificaciones</h2>
+        <p class="subtitulo-seccion" style="margin-bottom:0;">Agrega correos que recibirán notificaciones automáticas.</p>
+      </div>
+      <button class="btn" id="btn-nuevo-responsable">
+        <span>👤</span> Agregar responsable
+      </button>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--texto-suave);margin:12px 0 18px;">
+      Cada responsable puede suscribirse a los avisos que quiera. Los correos se envían automáticamente
+      cuando se crea una nueva fecha, un deseo o un módulo, y como recordatorio el día antes y el mismo día de cada evento.
+    </p>
+
+    <div class="tabla-responsables" id="tabla-responsables">
+      <div class="skeleton" style="height:60px;margin:8px;"></div>
+    </div>
+
+    <div style="margin-top:20px;padding:14px;background:var(--lila-2);border-radius:14px;font-size:0.85rem;color:var(--lila-7);">
+      <strong>ℹ️ Cómo funciona:</strong><br>
+      • Cada vez que se cree una fecha, deseo o módulo → correo a los suscritos.<br>
+      • El día antes y el mismo día de cada evento → recordatorio automático.<br>
+      • Para activar el envío diario: en Apps Script → menú <strong>"💜 Deseos de Bartolita" → Instalar trigger diario</strong>.
+    </div>
+  </section>
+
+</main>
+
+<!-- MODALES -->
+<div class="modal-fondo" id="modal-modulo">
+  <div class="modal">
+    <button class="modal__cerrar" data-cerrar="modulo">×</button>
+    <h3 class="modal__titulo" id="modal-modulo-titulo">Nuevo módulo</h3>
+    <p class="modal__sub">Crea una categoría para tus deseos</p>
+    <div class="campo">
+      <label>Icono (emojis)</label>
+      <input type="text" id="modulo-icono" maxlength="4" placeholder="🌸" value="💜">
+    </div>
+    <div class="campo">
+      <label>Nombre del módulo *</label>
+      <input type="text" id="modulo-nombre" placeholder="Ej: Lugares que queremos visitar">
+    </div>
+    <div class="campo">
+      <label>Descripción</label>
+      <textarea id="modulo-desc" placeholder="¿De qué trata este módulo?"></textarea>
+    </div>
+    <div class="modal__acciones">
+      <button class="btn btn--ghost" data-cerrar="modulo">Cancelar</button>
+      <button class="btn" id="btn-guardar-modulo">Guardar 💜</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-deseo">
+  <div class="modal">
+    <button class="modal__cerrar" data-cerrar="deseo">×</button>
+    <h3 class="modal__titulo" id="modal-deseo-titulo">Nuevo deseo</h3>
+    <p class="modal__sub" id="modal-deseo-sub">Añade algo que quieras vivir</p>
+    <div class="campo">
+      <label>Nombre del deseo *</label>
+      <input type="text" id="deseo-nombre" placeholder="Ej: Ir a la playa">
+    </div>
+    <div class="campo">
+      <label>Link de la página (opcional)</label>
+      <input type="text" id="deseo-url" placeholder="google.com o https://...">
+    </div>
+    <div class="campo-fila">
+      <div class="campo">
+        <label>Prioridad</label>
+        <select id="deseo-prioridad">
+          <option value="🔴 Urgente">🔴 Urgente</option>
+          <option value="🟡 Importante">🟡 Importante</option>
+          <option value="🟢 Puede esperar">🟢 Puede esperar</option>
+          <option value="⚪ Sin prioridad" selected>⚪ Sin prioridad</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Orden</label>
+        <input type="number" id="deseo-orden" min="1" value="1">
+      </div>
+    </div>
+    <div class="campo">
+      <label>Descripción (opcional)</label>
+      <textarea id="deseo-desc" placeholder="Algún detalle..."></textarea>
+    </div>
+    <div class="modal__acciones">
+      <button class="btn btn--ghost" data-cerrar="deseo">Cancelar</button>
+      <button class="btn" id="btn-guardar-deseo">Guardar deseo 💜</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-evento">
+  <div class="modal">
+    <button class="modal__cerrar" data-cerrar="evento">×</button>
+    <h3 class="modal__titulo" id="modal-evento-titulo">Nuevo momento</h3>
+    <p class="modal__sub">Agenda una cita, un paseo o lo que quieras 💕</p>
+    <div class="campo">
+      <label>Título *</label>
+      <input type="text" id="evento-titulo" placeholder="Ej: Cena juntos">
+    </div>
+    <div class="campo-fila">
+      <div class="campo">
+        <label>Fecha *</label>
+        <input type="date" id="evento-fecha">
+      </div>
+      <div class="campo">
+        <label>Tipo</label>
+        <select id="evento-tipo">
+          <option>💕 Cita</option>
+          <option>🌸 Paseo</option>
+          <option>🍰 Comida</option>
+          <option>🎬 Película</option>
+          <option>🏖️ Viaje</option>
+          <option>🎁 Otro</option>
+        </select>
+      </div>
+    </div>
+    <label class="check">
+      <input type="checkbox" id="evento-todo-dia">
+      <span>Todo el día (24 horas)</span>
+    </label>
+    <div class="campo-fila" style="margin-top:14px;">
+      <div class="campo">
+        <label>Hora inicio (opcional)</label>
+        <input type="time" id="evento-hora-ini">
+      </div>
+      <div class="campo">
+        <label>Hora fin (opcional)</label>
+        <input type="time" id="evento-hora-fin">
+      </div>
+    </div>
+    <div class="campo">
+      <label>Lugar</label>
+      <input type="text" id="evento-lugar" placeholder="Ej: San Miguel">
+    </div>
+    <div class="campo">
+      <label>Descripción (si no se llena se pone "paseo o convivencia")</label>
+      <textarea id="evento-desc" placeholder="¿Qué vamos a hacer?"></textarea>
+    </div>
+    <div class="campo">
+      <label>Vincular a un módulo de deseos (opcional)</label>
+      <select id="evento-modulo"><option value="">— Sin vincular —</option></select>
+    </div>
+    <div class="campo">
+      <label>Vincular a un deseo específico (opcional)</label>
+      <select id="evento-deseo"><option value="">— Sin vincular —</option></select>
+    </div>
+    <div class="modal__acciones">
+      <button class="btn btn--ghost" data-cerrar="evento">Cancelar</button>
+      <button class="btn" id="btn-guardar-evento">Guardar evento 💜</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-responsable">
+  <div class="modal">
+    <button class="modal__cerrar" data-cerrar="responsable">×</button>
+    <h3 class="modal__titulo" id="modal-responsable-titulo">Agregar responsable</h3>
+    <p class="modal__sub">Selecciona qué notificaciones recibirá</p>
+    <div class="campo">
+      <label>Correo electrónico *</label>
+      <input type="email" id="resp-email" placeholder="ejemplo@gmail.com">
+    </div>
+    <div class="campo">
+      <label>Nombre (opcional)</label>
+      <input type="text" id="resp-nombre" placeholder="Ej: Emerson">
+    </div>
+    <div class="campo">
+      <label>Notificaciones que recibirá:</label>
+      <div class="checks-grupo">
+        <label class="check-item">
+          <input type="checkbox" id="resp-notif-nueva-fecha" checked>
+          <span>📅 Nueva fecha agendada</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="resp-notif-nuevo-deseo" checked>
+          <span>💜 Nuevo deseo añadido</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="resp-notif-nuevo-modulo">
+          <span>🌸 Nuevo módulo creado</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="resp-notif-dia-antes" checked>
+          <span>⏰ Aviso el día antes del evento</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="resp-notif-dia-evento" checked>
+          <span>💜 Aviso el mismo día del evento</span>
+        </label>
+      </div>
+    </div>
+    <label class="check">
+      <input type="checkbox" id="resp-activo" checked>
+      <span>Responsable activo (recibe correos)</span>
+    </label>
+    <div class="modal__acciones">
+      <button class="btn btn--ghost" data-cerrar="responsable">Cancelar</button>
+      <button class="btn" id="btn-guardar-responsable">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-prueba">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal__cerrar" data-cerrar="prueba">×</button>
+    <h3 class="modal__titulo">📤 Enviar prueba</h3>
+    <p class="modal__sub" id="prueba-destino">—</p>
+    <button class="btn-prueba-opcion" id="btn-prueba-enviar">
+      <span class="emoji">📨</span>
+      <div>
+        <strong>Enviar correo de prueba</strong>
+        <small>Un correo de ejemplo para verificar que llegan bien.</small>
+      </div>
+    </button>
+    <div class="modal__acciones" style="margin-top:20px;">
+      <button class="btn btn--ghost" data-cerrar="prueba">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-confirmar">
+  <div class="modal" style="max-width:400px;">
+    <h3 class="modal__titulo" id="confirmar-titulo">¿Estás segura?</h3>
+    <p class="modal__sub" id="confirmar-texto">Esta acción no se puede deshacer.</p>
+    <div class="modal__acciones">
+      <button class="btn btn--ghost" id="confirmar-no">Cancelar</button>
+      <button class="btn btn--peligro" id="confirmar-si">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-fondo" id="modal-preview">
+  <div class="modal modal--grande">
+    <div class="preview-header">
+      <div>
+        <div>👁 Vista previa</div>
+        <div class="url" id="preview-url"></div>
+      </div>
+      <button id="preview-cerrar">×</button>
+    </div>
+    <div class="preview-body" id="preview-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 💜 Firebase (reemplaza al backend de Google Apps Script) -->
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="firebase-logic.js"></script>
+
+<script>
+/* =====================================================
+   💜 DESEOS DE BARTOLITA — Frontend v3 (Firebase)
+   ===================================================== */
+/* apiGet() y apiPost() ya no llaman a Google Apps Script:
+   ahora vienen definidas en firebase-logic.js y hablan
+   directo con Firestore. Se cargan antes de este script. */
+
+const $ = (id) => document.getElementById(id);
+
+let modulos = [];
+let deseos = [];
+let eventos = [];
+let responsables = [];
+let fechaActual = new Date();
+let fechaSeleccionada = new Date();
+let modoEdicionModulo = null;
+let modoEdicionDeseo = null;
+let modoEdicionEvento = null;
+let modoEdicionResponsable = null;
+let moduloActualDeseo = null;
+let filtroBartolo = "todos";
+let cargando = false;
+let emailPruebaActual = "";
+
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const MESES_CORTOS = ["ENE","FEB","MAR","ABR","MAY","JUN","JUL","AGO","SEP","OCT","NOV","DIC"];
+const DIAS_SEM = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+
+const pad = (n) => String(n).padStart(2,"0");
+const ymd = (f) => {
+  const d = new Date(f);
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+};
+const esc = (t) => {
+  if (t === null || t === undefined) return "";
+  return String(t)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+};
+
+function toast(msg, tipo){
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast visible" + (tipo ? " " + tipo : "");
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove("visible"), 2800);
+}
+
+function mostrarLoader(texto){
+  $("loader-texto").textContent = texto || "Cargando...";
+  $("loader-overlay").classList.add("visible");
+}
+function ocultarLoader(){
+  $("loader-overlay").classList.remove("visible");
+}
+function bloquearBtn(btn){
+  if (!btn) return () => {};
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.classList.add("cargando");
+  return () => {
+    btn.disabled = false;
+    btn.classList.remove("cargando");
+    btn.innerHTML = original;
+  };
+}
+
+function crearParticulas(){
+  const emojis = ["💜","✨","💕","🌸","⭐","💫"];
+  for (let i=0;i<14;i++){
+    const p = document.createElement("div");
+    p.className = "particula";
+    p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.left = Math.random()*100 + "vw";
+    p.style.fontSize = (10 + Math.random()*10) + "px";
+    p.style.animationDuration = (14 + Math.random()*14) + "s";
+    p.style.animationDelay = (-Math.random()*20) + "s";
+    document.getElementById("particulas").appendChild(p);
+  }
+}
+
+/* NAVEGACIÓN */
+function cambiarVista(nombre){
+  document.querySelectorAll(".vista").forEach(v => v.classList.remove("activa"));
+  const v = $("vista-" + nombre);
+  if (v) v.classList.add("activa");
+
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.toggle("activo", t.dataset.vista === nombre);
+  });
+  document.querySelectorAll(".drawer__item[data-vista]").forEach(t => {
+    t.classList.toggle("activo", t.dataset.vista === nombre);
+  });
+
+  if (nombre === "bartolo") renderizarBartolo();
+  if (nombre === "calendario") renderizarCalendario();
+  if (nombre === "notificaciones") renderizarResponsables();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".tab").forEach(t => {
+  t.addEventListener("click", () => cambiarVista(t.dataset.vista));
+});
+document.querySelectorAll(".drawer__item[data-vista]").forEach(t => {
+  t.addEventListener("click", () => {
+    cambiarVista(t.dataset.vista);
+    cerrarDrawer();
+  });
+});
+
+function abrirDrawer(){
+  $("drawer").classList.add("abierto");
+  $("drawer-fondo").classList.add("abierto");
+}
+function cerrarDrawer(){
+  $("drawer").classList.remove("abierto");
+  $("drawer-fondo").classList.remove("abierto");
+}
+$("btn-menu").addEventListener("click", abrirDrawer);
+$("btn-cerrar-drawer").addEventListener("click", cerrarDrawer);
+$("drawer-fondo").addEventListener("click", cerrarDrawer);
+
+$("drawer-nuevo-modulo").addEventListener("click", () => {
+  cerrarDrawer(); cambiarVista("deseos"); abrirModalModulo();
+});
+$("drawer-nuevo-evento").addEventListener("click", () => {
+  cerrarDrawer(); cambiarVista("calendario"); abrirModalEvento();
+});
+
+/* MÓDULOS */
+function renderizarModulos(){
+  const grid = $("modulos-grid");
+  if (!modulos.length){
+    grid.innerHTML = `<div class="vacio-msg" style="grid-column:1/-1;"><span class="emoji">🌸</span>Aún no hay módulos.<br>¡Crea el primero!</div>`;
+    return;
+  }
+  grid.innerHTML = modulos.map(m => {
+    const ds = deseos
+      .filter(d => String(d.moduloId) === String(m.id))
+      .sort((a,b) => (a.orden - b.orden) || String(a.fechaCreacion).localeCompare(String(b.fechaCreacion)));
+
+    const listaDeseos = ds.length
+      ? ds.map((d,i) => renderDeseo(d, i+1)).join("")
+      : `<div class="vacio-msg" style="padding:20px;"><span class="emoji" style="font-size:1.6rem;">💭</span>Aún sin deseos aquí</div>`;
+
+    return `
+      <div class="modulo" data-id="${esc(m.id)}">
+        <div class="modulo__header">
+          <div style="flex:1;">
+            <div class="modulo__titulo">${esc(m.icono)} ${esc(m.nombre)}</div>
+            ${m.descripcion ? `<div class="modulo__desc">${esc(m.descripcion)}</div>` : ""}
+          </div>
+          <button class="menu-btn" data-menu="${esc(m.id)}">⋮</button>
+          <div class="menu-dropdown" id="menu-${esc(m.id)}">
+            <button data-accion="editar" data-id="${esc(m.id)}">✏️ Editar módulo</button>
+            <button data-accion="eliminar" data-id="${esc(m.id)}" class="peligro">🗑️ Eliminar módulo</button>
+          </div>
+        </div>
+        <div class="deseos-lista">${listaDeseos}</div>
+        <div class="modulo__footer">
+          <button class="btn-add-deseo" data-add="${esc(m.id)}">＋ Añadir otro deseo</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  grid.querySelectorAll("[data-menu]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.menu;
+      document.querySelectorAll(".menu-dropdown.abierto").forEach(m => {
+        if (m.id !== "menu-" + id) m.classList.remove("abierto");
+      });
+      $("menu-" + id).classList.toggle("abierto");
+    });
+  });
+
+  document.addEventListener("click", () => {
+    document.querySelectorAll(".menu-dropdown.abierto").forEach(m => m.classList.remove("abierto"));
+  });
+
+  grid.querySelectorAll(".menu-dropdown button").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      if (btn.dataset.accion === "editar") abrirModalModulo(modulos.find(x => String(x.id) === String(id)));
+      if (btn.dataset.accion === "eliminar") eliminarModulo(id);
+    });
+  });
+
+  grid.querySelectorAll("[data-add]").forEach(btn => {
+    btn.addEventListener("click", () => abrirModalDeseo(null, btn.dataset.add));
+  });
+
+  grid.querySelectorAll(".deseo").forEach(card => {
+    const id = card.dataset.id;
+    card.querySelectorAll("[data-accion]").forEach(b => {
+      b.addEventListener("click", async () => {
+        const accion = b.dataset.accion;
+        const deseo = deseos.find(x => String(x.id) === String(id));
+        if (accion === "editar") abrirModalDeseo(deseo);
+        if (accion === "eliminar") eliminarDeseo(id);
+        if (accion === "abrir") window.open(deseo.url, "_blank", "noopener");
+        if (accion === "preview") abrirPreview(deseo.url);
+        if (accion === "copiar"){
+          try {
+            await navigator.clipboard.writeText(deseo.url);
+            b.classList.add("copiado");
+            b.textContent = "✓ Copiado";
+            setTimeout(() => {
+              b.classList.remove("copiado");
+              b.textContent = "📋 Copiar";
+            }, 1800);
+            toast("Enlace copiado 📋", "ok");
+          } catch(e){
+            toast("No se pudo copiar", "error");
+          }
+        }
+      });
+    });
+  });
+}
+
+function renderDeseo(d, num){
+  const url = d.url || "";
+  const prioridad = d.prioridad || "⚪ Sin prioridad";
+  return `
+    <div class="deseo" data-id="${esc(d.id)}" data-prioridad="${esc(prioridad)}">
+      <div class="deseo__fila">
+        <div class="deseo__titulo">
+          <span class="deseo__num">${pad(num)}.</span>
+          <span>${esc(d.nombre)}</span>
+        </div>
+        <span class="deseo__badge">${esc(prioridad)}</span>
+      </div>
+      ${d.descripcion ? `<div class="deseo__desc">${esc(d.descripcion)}</div>` : ""}
+      <div class="deseo__acciones">
+        ${url ? `<button class="mini-btn" data-accion="copiar">📋 Copiar</button>
+                 <button class="mini-btn" data-accion="abrir">🔗 Abrir</button>
+                 <button class="mini-btn" data-accion="preview">👁 Vista previa</button>` : ""}
+        <button class="mini-btn" data-accion="editar">✏️ Editar</button>
+        <button class="mini-btn del" data-accion="eliminar">🗑️</button>
+      </div>
+    </div>
+  `;
+}
+
+/* MODAL MÓDULO */
+function abrirModalModulo(mod = null){
+  modoEdicionModulo = mod ? mod.id : null;
+  $("modal-modulo-titulo").textContent = mod ? "Editar módulo" : "Nuevo módulo";
+  $("modulo-icono").value = mod ? mod.icono : "💜";
+  $("modulo-nombre").value = mod ? mod.nombre : "";
+  $("modulo-desc").value = mod ? mod.descripcion : "";
+  $("modal-modulo").classList.add("visible");
+}
+function cerrarModalModulo(){
+  $("modal-modulo").classList.remove("visible");
+  modoEdicionModulo = null;
+}
+
+async function guardarModulo(){
+  const nombre = $("modulo-nombre").value.trim();
+  if (!nombre){ toast("El módulo necesita un nombre", "error"); return; }
+  const btn = $("btn-guardar-modulo");
+  const restaurar = bloquearBtn(btn);
+  mostrarLoader("Guardando módulo...");
+  try {
+    const r = await apiPost({
+      accion: modoEdicionModulo ? "actualizarModulo" : "crearModulo",
+      id: modoEdicionModulo,
+      nombre,
+      icono: $("modulo-icono").value.trim() || "💜",
+      descripcion: $("modulo-desc").value.trim()
+    });
+    if (r.ok){
+      toast(modoEdicionModulo ? "Módulo actualizado 💜" : "¡Módulo creado!", "ok");
+      cerrarModalModulo();
+      await cargarTodo();
+    } else toast(r.error || "Error al guardar", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { restaurar(); ocultarLoader(); }
+}
+
+async function eliminarModulo(id){
+  const ds = deseos.filter(d => String(d.moduloId) === String(id));
+  const texto = ds.length
+    ? `Este módulo contiene ${ds.length} deseo(s). ¿Eliminar junto con todos sus deseos?`
+    : "¿Seguro que quieres eliminar este módulo?";
+  confirmar("Eliminar módulo", texto, async () => {
+    mostrarLoader("Eliminando...");
+    try {
+      const r = await apiPost({ accion: "eliminarModulo", id });
+      if (r.ok){ toast("Módulo eliminado", "ok"); await cargarTodo(); }
+      else toast(r.error || "Error", "error");
+    } catch(e){ toast("Error de conexión", "error"); }
+    finally { ocultarLoader(); }
+  });
+}
+
+/* MODAL DESEO */
+function abrirModalDeseo(d = null, moduloId = null){
+  modoEdicionDeseo = d ? d.id : null;
+  moduloActualDeseo = d ? d.moduloId : moduloId;
+  const mod = modulos.find(m => String(m.id) === String(moduloActualDeseo));
+  $("modal-deseo-titulo").textContent = d ? "Editar deseo" : "Nuevo deseo";
+  $("modal-deseo-sub").textContent = mod ? `En: ${mod.icono} ${mod.nombre}` : "Añade algo que quieras vivir";
+  $("deseo-nombre").value = d ? d.nombre : "";
+  $("deseo-url").value = d ? d.url : "";
+  $("deseo-prioridad").value = d ? (d.prioridad || "⚪ Sin prioridad") : "⚪ Sin prioridad";
+  $("deseo-orden").value = d ? d.orden : (deseos.filter(x => String(x.moduloId) === String(moduloActualDeseo)).length + 1);
+  $("deseo-desc").value = d ? d.descripcion : "";
+  $("modal-deseo").classList.add("visible");
+}
+function cerrarModalDeseo(){
+  $("modal-deseo").classList.remove("visible");
+  modoEdicionDeseo = null;
+  moduloActualDeseo = null;
+}
+
+async function guardarDeseo(){
+  const nombre = $("deseo-nombre").value.trim();
+  if (!nombre){ toast("El deseo necesita un nombre", "error"); return; }
+  if (!moduloActualDeseo && !modoEdicionDeseo){ toast("Falta el módulo", "error"); return; }
+  const btn = $("btn-guardar-deseo");
+  const restaurar = bloquearBtn(btn);
+  mostrarLoader("Guardando deseo...");
+  try {
+    const r = await apiPost({
+      accion: modoEdicionDeseo ? "actualizarDeseo" : "crearDeseo",
+      id: modoEdicionDeseo,
+      moduloId: moduloActualDeseo,
+      nombre,
+      url: $("deseo-url").value.trim(),
+      prioridad: $("deseo-prioridad").value,
+      orden: Number($("deseo-orden").value) || 1,
+      descripcion: $("deseo-desc").value.trim()
+    });
+    if (r.ok){
+      toast(modoEdicionDeseo ? "Deseo actualizado 💜" : "¡Deseo añadido!", "ok");
+      cerrarModalDeseo();
+      await cargarTodo();
+    } else toast(r.error || "Error al guardar", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { restaurar(); ocultarLoader(); }
+}
+
+async function eliminarDeseo(id){
+  confirmar("Eliminar deseo", "¿Seguro que quieres eliminar este deseo?", async () => {
+    mostrarLoader("Eliminando...");
+    try {
+      const r = await apiPost({ accion: "eliminarDeseo", id });
+      if (r.ok){ toast("Deseo eliminado", "ok"); await cargarTodo(); }
+      else toast(r.error || "Error", "error");
+    } catch(e){ toast("Error de conexión", "error"); }
+    finally { ocultarLoader(); }
+  });
+}
+
+function confirmar(titulo, texto, onSi){
+  $("confirmar-titulo").textContent = titulo;
+  $("confirmar-texto").textContent = texto;
+  $("modal-confirmar").classList.add("visible");
+  const cerrar = () => $("modal-confirmar").classList.remove("visible");
+  $("confirmar-si").onclick = () => { cerrar(); onSi(); };
+  $("confirmar-no").onclick = cerrar;
+}
+
+/* VISTA PREVIA */
+function abrirPreview(url){
+  if (!url) return;
+  const full = /^https?:\/\//i.test(url) ? url : "https://" + url;
+  $("preview-url").textContent = full;
+  const body = $("preview-body");
+  body.innerHTML = "";
+
+  const bloqueo = setTimeout(() => {
+    if (body.querySelector("iframe")) mostrarBloqueo(full);
+  }, 3500);
+
+  const iframe = document.createElement("iframe");
+  iframe.src = full;
+  iframe.sandbox = "allow-same-origin allow-scripts allow-popups allow-forms";
+  iframe.onload = () => clearTimeout(bloqueo);
+  iframe.onerror = () => { clearTimeout(bloqueo); mostrarBloqueo(full); };
+
+  body.appendChild(iframe);
+  $("modal-preview").classList.add("visible");
+}
+
+function mostrarBloqueo(url){
+  $("preview-body").innerHTML = `
+    <div class="preview-bloqueado">
+      <span class="emoji">🔒</span>
+      <h3>Esta página no permite mostrarse dentro de una vista previa.</h3>
+      <p style="margin-bottom:18px;">Puedes abrirla en una pestaña nueva sin problema.</p>
+      <a href="${esc(url)}" target="_blank" rel="noopener" class="btn">🔗 Abrir página</a>
+    </div>
+  `;
+}
+
+$("preview-cerrar").addEventListener("click", () => {
+  $("modal-preview").classList.remove("visible");
+  $("preview-body").innerHTML = "";
+});
+
+/* CALENDARIO */
+function renderizarFechaGrande(fecha){
+  const d = fecha ? new Date(fecha) : new Date();
+  $("fg-dia").textContent = d.getDate();
+  $("fg-mes").textContent = MESES[d.getMonth()];
+  $("fg-anio").textContent = d.getFullYear();
+  $("fg-dia-sem").textContent = DIAS_SEM[d.getDay()];
+}
+
+function renderizarCalendario(){
+  const anio = fechaActual.getFullYear();
+  const mes = fechaActual.getMonth();
+  $("cal-mes").textContent = `${MESES[mes]} ${anio}`;
+
+  const primerDia = new Date(anio, mes, 1);
+  let diaSem = primerDia.getDay();
+  diaSem = diaSem === 0 ? 6 : diaSem - 1;
+
+  const diasEnMes = new Date(anio, mes+1, 0).getDate();
+  const grid = $("cal-grid");
+  grid.innerHTML = "";
+
+  const hoyStr = ymd(new Date());
+  const selStr = fechaSeleccionada ? ymd(fechaSeleccionada) : "";
+
+  const mapa = {};
+  eventos.forEach(ev => {
+    if (!mapa[ev.fecha]) mapa[ev.fecha] = [];
+    mapa[ev.fecha].push(ev);
+  });
+
+  for (let i=0;i<diaSem;i++){
+    const v = document.createElement("div");
+    v.className = "dia vacio";
+    grid.appendChild(v);
+  }
+
+  for (let d=1; d<=diasEnMes; d++){
+    const btn = document.createElement("button");
+    btn.className = "dia";
+    const fechaStr = `${anio}-${pad(mes+1)}-${pad(d)}`;
+    const dow = new Date(anio, mes, d).getDay();
+    btn.textContent = d;
+    btn.dataset.fecha = fechaStr;
+
+    if (dow === 0 || dow === 6) btn.classList.add("finde");
+    if (fechaStr === hoyStr) btn.classList.add("hoy");
+    if (fechaStr === selStr) btn.classList.add("seleccionado");
+
+    const evs = mapa[fechaStr] || [];
+    if (evs.length){
+      btn.classList.add("con-evento");
+      if (evs.every(e => e.cumplido)) btn.classList.add("cumplido");
+    }
+
+    btn.addEventListener("click", () => seleccionarDia(fechaStr, btn));
+    grid.appendChild(btn);
+  }
+}
+
+function seleccionarDia(fechaStr, btn){
+  fechaSeleccionada = new Date(fechaStr + "T00:00:00");
+  document.querySelectorAll(".dia.seleccionado").forEach(e => e.classList.remove("seleccionado"));
+  btn.classList.add("seleccionado");
+  btn.classList.add("pulse");
+  setTimeout(() => btn.classList.remove("pulse"), 700);
+  renderizarFechaGrande(fechaSeleccionada);
+  renderizarEventosDelDia();
+}
+
+function renderizarEventosDelDia(){
+  const cont = $("eventos-dia-lista");
+  if (!fechaSeleccionada){
+    cont.innerHTML = `<div class="vacio-msg">Selecciona un día</div>`;
+    return;
+  }
+  const fechaStr = ymd(fechaSeleccionada);
+  const evs = eventos.filter(e => e.fecha === fechaStr);
+
+  if (!evs.length){
+    cont.innerHTML = `<div class="vacio-msg"><span class="emoji">💭</span>Sin eventos este día<br><button class="btn btn--sm" id="btn-agendar-mini" style="margin-top:12px;">💜 Agendar momento</button></div>`;
+    const b = $("btn-agendar-mini");
+    if (b) b.addEventListener("click", () => abrirModalEvento());
+    return;
+  }
+
+  cont.innerHTML = evs.map(ev => renderEventoCard(ev)).join("");
+  cont.querySelectorAll("[data-ev-accion]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const ev = eventos.find(x => String(x.id) === String(id));
+      if (btn.dataset.evAccion === "editar") abrirModalEvento(ev);
+      if (btn.dataset.evAccion === "eliminar") eliminarEvento(id);
+      if (btn.dataset.evAccion === "cumplido") marcarCumplido(id, !ev.cumplido);
+    });
+  });
+}
+
+function renderEventoCard(ev){
+  const mod = ev.moduloId ? modulos.find(m => String(m.id) === String(ev.moduloId)) : null;
+  const des = ev.deseoId ? deseos.find(d => String(d.id) === String(ev.deseoId)) : null;
+  const hora = ev.todoElDia
+    ? "🌞 Todo el día (24 horas)"
+    : `${ev.horaInicio || "00:00"}${ev.horaFin ? " — " + ev.horaFin : " — 23:59"}`;
+
+  return `
+    <div class="evento ${ev.cumplido ? "cumplido" : ""}">
+      <div class="evento__titulo">
+        ${esc(ev.titulo)}
+        <span class="evento__tipo">${esc(ev.tipo || "💕 Cita")}</span>
+      </div>
+      <div class="evento__hora">🕐 ${esc(hora)}</div>
+      ${ev.lugar ? `<div class="evento__lugar">📍 ${esc(ev.lugar)}</div>` : ""}
+      ${ev.descripcion ? `<div class="evento__desc">"${esc(ev.descripcion)}"</div>` : ""}
+      ${mod ? `<div class="evento__deseo">${esc(mod.icono)} Vinculado: ${esc(mod.nombre)}</div>` : ""}
+      ${des ? `<div class="evento__deseo">🌸 Deseo: ${esc(des.nombre)}</div>` : ""}
+      <div class="evento__acciones">
+        <button class="mini-btn ${ev.cumplido ? "" : "btn--cumplido"}" data-ev-accion="cumplido" data-id="${esc(ev.id)}">
+          ${ev.cumplido ? "↩️ Desmarcar" : "✓ Cumplido"}
+        </button>
+        <button class="mini-btn" data-ev-accion="editar" data-id="${esc(ev.id)}">✏️ Editar</button>
+        <button class="mini-btn del" data-ev-accion="eliminar" data-id="${esc(ev.id)}">🗑️</button>
+      </div>
+    </div>
+  `;
+}
+
+/* MODAL EVENTO */
+function abrirModalEvento(ev = null){
+  modoEdicionEvento = ev ? ev.id : null;
+  $("modal-evento-titulo").textContent = ev ? "Editar momento" : "Nuevo momento";
+
+  const selMod = $("evento-modulo");
+  selMod.innerHTML = `<option value="">— Sin vincular —</option>` +
+    modulos.map(m => `<option value="${esc(m.id)}">${esc(m.icono)} ${esc(m.nombre)}</option>`).join("");
+
+  const selDes = $("evento-deseo");
+  selDes.innerHTML = `<option value="">— Sin vincular —</option>` +
+    deseos.map(d => `<option value="${esc(d.id)}">${esc(d.nombre)}</option>`).join("");
+
+  $("evento-titulo").value = ev ? ev.titulo : "";
+  $("evento-fecha").value = ev ? ev.fecha : (fechaSeleccionada ? ymd(fechaSeleccionada) : ymd(new Date()));
+  $("evento-tipo").value = ev ? (ev.tipo || "💕 Cita") : "💕 Cita";
+  $("evento-todo-dia").checked = ev ? !!ev.todoElDia : false;
+  $("evento-hora-ini").value = ev ? (ev.horaInicio || "") : "";
+  $("evento-hora-fin").value = ev ? (ev.horaFin || "") : "";
+  $("evento-lugar").value = ev ? ev.lugar : "";
+  $("evento-desc").value = ev ? ev.descripcion : "";
+  selMod.value = ev ? (ev.moduloId || "") : "";
+  selDes.value = ev ? (ev.deseoId || "") : "";
+
+  $("modal-evento").classList.add("visible");
+}
+function cerrarModalEvento(){
+  $("modal-evento").classList.remove("visible");
+  modoEdicionEvento = null;
+}
+
+async function guardarEvento(){
+  const titulo = $("evento-titulo").value.trim();
+  const fecha = $("evento-fecha").value;
+  if (!titulo){ toast("El evento necesita un título", "error"); return; }
+  if (!fecha){ toast("Elige una fecha", "error"); return; }
+  const btn = $("btn-guardar-evento");
+  const restaurar = bloquearBtn(btn);
+  mostrarLoader("Guardando momento...");
+  try {
+    const r = await apiPost({
+      accion: modoEdicionEvento ? "actualizarEvento" : "crearEvento",
+      id: modoEdicionEvento,
+      titulo, fecha,
+      horaInicio: $("evento-hora-ini").value,
+      horaFin: $("evento-hora-fin").value,
+      descripcion: $("evento-desc").value.trim(),
+      lugar: $("evento-lugar").value.trim(),
+      tipo: $("evento-tipo").value,
+      todoElDia: $("evento-todo-dia").checked,
+      moduloId: $("evento-modulo").value,
+      deseoId: $("evento-deseo").value
+    });
+    if (r.ok){
+      if (!modoEdicionEvento) lanzarCorazones();
+      toast(modoEdicionEvento ? "Momento actualizado 💜" : "💜 Momento guardado", "ok");
+      cerrarModalEvento();
+      await cargarEventos();
+      renderizarCalendario();
+      renderizarEventosDelDia();
+    } else toast(r.error || "Error al guardar", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { restaurar(); ocultarLoader(); }
+}
+
+async function eliminarEvento(id){
+  confirmar("Eliminar evento", "¿Seguro que quieres eliminar este evento?", async () => {
+    mostrarLoader("Eliminando...");
+    try {
+      const r = await apiPost({ accion: "eliminarEvento", id });
+      if (r.ok){
+        toast("Evento eliminado", "ok");
+        await cargarEventos();
+        renderizarCalendario();
+        renderizarEventosDelDia();
+      } else toast(r.error || "Error", "error");
+    } catch(e){ toast("Error de conexión", "error"); }
+    finally { ocultarLoader(); }
+  });
+}
+
+async function marcarCumplido(id, cumplido){
+  mostrarLoader(cumplido ? "Marcando..." : "Desmarcando...");
+  try {
+    const r = await apiPost({ accion: "marcarCumplido", id, cumplido });
+    if (r.ok){
+      toast(cumplido ? "¡Marcado como cumplido! ✓" : "Desmarcado", "ok");
+      await cargarEventos();
+      renderizarCalendario();
+      renderizarEventosDelDia();
+      if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
+    } else toast(r.error || "Error", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { ocultarLoader(); }
+}
+
+function lanzarCorazones(){
+  const emojis = ["💜","💕","💖","✨","🌸"];
+  for (let i=0;i<18;i++){
+    const c = document.createElement("div");
+    c.className = "corazon-flotante";
+    c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = (20 + Math.random()*60) + "vw";
+    c.style.top = (40 + Math.random()*20) + "vh";
+    c.style.animationDelay = (Math.random()*0.5) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2600);
+  }
+}
+
+/* VISTA BARTOLO */
+function renderizarBartolo(){
+  const hoyStr = ymd(new Date());
+  const lista = $("bartolo-lista");
+
+  const total = eventos.length;
+  const cumplidos = eventos.filter(e => e.cumplido).length;
+  const pendientes = total - cumplidos;
+  const urgentes = deseos.filter(d => d.prioridad === "🔴 Urgente").length;
+
+  $("stat-total").textContent = total;
+  $("stat-cumplidos").textContent = cumplidos;
+  $("stat-pendientes").textContent = pendientes;
+  $("stat-urgentes").textContent = urgentes;
+
+  let listaEv = [...eventos].sort((a,b) => (a.fecha + a.horaInicio).localeCompare(b.fecha + b.horaInicio));
+  if (filtroBartolo === "pendientes") listaEv = listaEv.filter(e => !e.cumplido);
+  if (filtroBartolo === "cumplidos") listaEv = listaEv.filter(e => e.cumplido);
+  if (filtroBartolo === "hoy") listaEv = listaEv.filter(e => e.fecha === hoyStr);
+
+  if (!listaEv.length){
+    lista.innerHTML = `<div class="vacio-msg"><span class="emoji">👑</span>No hay eventos con este filtro.</div>`;
+    return;
+  }
+
+  lista.innerHTML = listaEv.map(ev => {
+    const d = new Date(ev.fecha + "T00:00:00");
+    const mod = ev.moduloId ? modulos.find(m => String(m.id) === String(ev.moduloId)) : null;
+    const des = ev.deseoId ? deseos.find(x => String(x.id) === String(ev.deseoId)) : null;
+    const hora = ev.todoElDia ? "Todo el día" : (ev.horaInicio ? ev.horaInicio + (ev.horaFin ? " — " + ev.horaFin : "") : "Sin hora");
+
+    return `
+      <div class="bartolo-item ${ev.cumplido ? "cumplido" : ""}">
+        <div class="bartolo-item__fecha">
+          <div class="d">${d.getDate()}</div>
+          <div class="m">${MESES_CORTOS[d.getMonth()]}</div>
+        </div>
+        <div class="bartolo-item__info">
+          <h4>${esc(ev.titulo)} <span class="evento__tipo">${esc(ev.tipo || "")}</span></h4>
+          <div class="detalle">🕐 ${esc(hora)}</div>
+          ${ev.lugar ? `<div class="detalle">📍 ${esc(ev.lugar)}</div>` : ""}
+          ${ev.descripcion ? `<div class="detalle">💬 ${esc(ev.descripcion)}</div>` : ""}
+          ${mod ? `<div class="bartolo-item__deseo">${esc(mod.icono)} ${esc(mod.nombre)}</div>` : ""}
+          ${des ? `<div class="bartolo-item__deseo">🌸 ${esc(des.nombre)}</div>` : ""}
+        </div>
+        <div class="bartolo-item__acciones">
+          <button class="btn btn--sm ${ev.cumplido ? "btn--ghost" : "btn--cumplido"}" data-accion="cumplido" data-id="${esc(ev.id)}">
+            ${ev.cumplido ? "↩️" : "✓"} ${ev.cumplido ? "Desmarcar" : "Cumplido"}
+          </button>
+          <button class="btn btn--sm btn--ghost" data-accion="editar" data-id="${esc(ev.id)}">✏️ Editar</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  lista.querySelectorAll("[data-accion]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const ev = eventos.find(x => String(x.id) === String(id));
+      if (btn.dataset.accion === "cumplido") marcarCumplido(id, !ev.cumplido);
+      if (btn.dataset.accion === "editar") abrirModalEvento(ev);
+    });
+  });
+}
+
+document.querySelectorAll(".filtro-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    document.querySelectorAll(".filtro-chip").forEach(c => c.classList.remove("activo"));
+    chip.classList.add("activo");
+    filtroBartolo = chip.dataset.filtro;
+    renderizarBartolo();
+  });
+});
+
+/* RESPONSABLES */
+function renderizarResponsables(){
+  const cont = $("tabla-responsables");
+  if (!responsables.length){
+    cont.innerHTML = `<div class="vacio-msg"><span class="emoji">🔔</span>Sin responsables aún.<br>Agrega un correo para recibir notificaciones.</div>`;
+    return;
+  }
+
+  const labels = {
+    notif_nueva_fecha: "📅 Fecha",
+    notif_nuevo_deseo: "💜 Deseo",
+    notif_nuevo_modulo: "🌸 Módulo",
+    notif_dia_antes: "⏰ Día antes",
+    notif_dia_evento: "💜 Mismo día"
+  };
+
+  cont.innerHTML = `
+    <div class="tabla-responsables__header">
+      <div>Correo</div>
+      <div>Nombre</div>
+      <div>Avisos suscritos</div>
+      <div>Estado</div>
+      <div>Acciones</div>
+    </div>
+    ${responsables.map(r => {
+      const badges = Object.keys(labels)
+        .filter(k => r[k])
+        .map(k => `<span class="badge-notif">${labels[k]}</span>`)
+        .join("") || `<span style="font-size:0.78rem;color:var(--texto-suave);">—</span>`;
+
+      return `
+        <div class="tabla-responsables__fila" data-id="${esc(r.id)}">
+          <div data-label="Correo"><div class="email">${esc(r.email)}</div></div>
+          <div data-label="Nombre">${esc(r.nombre) || "—"}</div>
+          <div data-label="Avisos"><div class="badges">${badges}</div></div>
+          <div data-label="Estado">
+            <span class="estado-chip ${r.activo ? "activo" : "inactivo"}">
+              ${r.activo ? "● Activo" : "○ Inactivo"}
+            </span>
+          </div>
+          <div data-label="Acciones">
+            <div class="acciones-resp">
+              <button data-accion="editar" data-id="${esc(r.id)}" title="Editar">✏️</button>
+              <button data-accion="prueba" data-id="${esc(r.id)}" title="Enviar prueba">📤</button>
+              <button data-accion="eliminar" data-id="${esc(r.id)}" class="peligro" title="Eliminar">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("")}
+  `;
+
+  cont.querySelectorAll("[data-accion]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      const r = responsables.find(x => String(x.id) === String(id));
+      if (btn.dataset.accion === "editar") abrirModalResponsable(r);
+      if (btn.dataset.accion === "eliminar") eliminarResponsable(id);
+      if (btn.dataset.accion === "prueba") abrirModalPrueba(r);
+    });
+  });
+}
+
+function abrirModalResponsable(r = null){
+  modoEdicionResponsable = r ? r.id : null;
+  $("modal-responsable-titulo").textContent = r ? "Editar responsable" : "Agregar responsable";
+  $("resp-email").value = r ? r.email : "";
+  $("resp-nombre").value = r ? r.nombre : "";
+  $("resp-notif-nueva-fecha").checked = r ? !!r.notif_nueva_fecha : true;
+  $("resp-notif-nuevo-deseo").checked = r ? !!r.notif_nuevo_deseo : true;
+  $("resp-notif-nuevo-modulo").checked = r ? !!r.notif_nuevo_modulo : false;
+  $("resp-notif-dia-antes").checked = r ? !!r.notif_dia_antes : true;
+  $("resp-notif-dia-evento").checked = r ? !!r.notif_dia_evento : true;
+  $("resp-activo").checked = r ? !!r.activo : true;
+  $("modal-responsable").classList.add("visible");
+}
+function cerrarModalResponsable(){
+  $("modal-responsable").classList.remove("visible");
+  modoEdicionResponsable = null;
+}
+
+async function guardarResponsable(){
+  const email = $("resp-email").value.trim();
+  if (!email){ toast("Falta el correo", "error"); return; }
+  const btn = $("btn-guardar-responsable");
+  const restaurar = bloquearBtn(btn);
+  mostrarLoader("Guardando responsable...");
+  try {
+    const r = await apiPost({
+      accion: modoEdicionResponsable ? "actualizarResponsable" : "crearResponsable",
+      id: modoEdicionResponsable,
+      email,
+      nombre: $("resp-nombre").value.trim(),
+      notif_nueva_fecha: $("resp-notif-nueva-fecha").checked,
+      notif_nuevo_deseo: $("resp-notif-nuevo-deseo").checked,
+      notif_nuevo_modulo: $("resp-notif-nuevo-modulo").checked,
+      notif_dia_antes: $("resp-notif-dia-antes").checked,
+      notif_dia_evento: $("resp-notif-dia-evento").checked,
+      activo: $("resp-activo").checked
+    });
+    if (r.ok){
+      toast(modoEdicionResponsable ? "Responsable actualizado 💜" : "¡Responsable agregado!", "ok");
+      cerrarModalResponsable();
+      await cargarResponsables();
+    } else toast(r.error || "Error al guardar", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { restaurar(); ocultarLoader(); }
+}
+
+async function eliminarResponsable(id){
+  confirmar("Eliminar responsable", "¿Seguro que quieres eliminar este responsable?", async () => {
+    mostrarLoader("Eliminando...");
+    try {
+      const r = await apiPost({ accion: "eliminarResponsable", id });
+      if (r.ok){ toast("Responsable eliminado", "ok"); await cargarResponsables(); }
+      else toast(r.error || "Error", "error");
+    } catch(e){ toast("Error de conexión", "error"); }
+    finally { ocultarLoader(); }
+  });
+}
+
+function abrirModalPrueba(r){
+  emailPruebaActual = r.email;
+  $("prueba-destino").textContent = "Para: " + r.email;
+  $("modal-prueba").classList.add("visible");
+}
+function cerrarModalPrueba(){
+  $("modal-prueba").classList.remove("visible");
+  emailPruebaActual = "";
+}
+
+async function enviarPrueba(){
+  if (!emailPruebaActual) return;
+  const btn = $("btn-prueba-enviar");
+  const restaurar = bloquearBtn(btn);
+  mostrarLoader("Enviando correo de prueba...");
+  try {
+    const r = await apiPost({ accion: "enviarPruebaResponsable", email: emailPruebaActual });
+    if (r.ok){
+      toast("Correo enviado 💜 Revisa la bandeja", "ok");
+      cerrarModalPrueba();
+    } else {
+      toast("Error: " + (r.error || "no se pudo enviar"), "error");
+    }
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { restaurar(); ocultarLoader(); }
+}
+
+$("btn-prueba-enviar").addEventListener("click", enviarPrueba);
+$("btn-nuevo-responsable").addEventListener("click", () => abrirModalResponsable());
+$("btn-guardar-responsable").addEventListener("click", guardarResponsable);
+
+/* CARGA DE DATOS */
+async function cargarTodo(){
+  if (cargando) return;
+  cargando = true;
+  mostrarLoader("Cargando tus deseos...");
+  try {
+    const [rMod, rDes, rEve, rResp] = await Promise.all([
+      apiGet("obtenerModulos"),
+      apiGet("obtenerDeseos"),
+      apiGet("obtenerEventos"),
+      apiGet("obtenerResponsables")
+    ]);
+    if (rMod.ok) modulos = rMod.datos || [];
+    if (rDes.ok) deseos = rDes.datos || [];
+    if (rEve.ok) eventos = rEve.datos || [];
+    if (rResp.ok) responsables = rResp.datos || [];
+
+    renderizarModulos();
+    renderizarCalendario();
+    renderizarEventosDelDia();
+    renderizarFechaGrande(fechaSeleccionada);
+    renderizarResponsables();
+  } catch(e){
+    console.error(e);
+    toast("Error al cargar datos", "error");
+  } finally {
+    cargando = false;
+    ocultarLoader();
+  }
+}
+
+async function cargarEventos(){
+  try {
+    const r = await apiGet("obtenerEventos");
+    if (r.ok) eventos = r.datos || [];
+  } catch(e){ console.error(e); }
+}
+
+async function cargarResponsables(){
+  try {
+    const r = await apiGet("obtenerResponsables");
+    if (r.ok){
+      responsables = r.datos || [];
+      renderizarResponsables();
+    }
+  } catch(e){ console.error(e); }
+}
+
+/* INICIALIZACIÓN */
+function inicializar(){
+  crearParticulas();
+  renderizarFechaGrande(new Date());
+
+  document.querySelectorAll("[data-cerrar]").forEach(el => {
+    el.addEventListener("click", () => {
+      const t = el.dataset.cerrar;
+      if (t === "modulo") cerrarModalModulo();
+      if (t === "deseo") cerrarModalDeseo();
+      if (t === "evento") cerrarModalEvento();
+      if (t === "responsable") cerrarModalResponsable();
+      if (t === "prueba") cerrarModalPrueba();
+    });
+  });
+  document.querySelectorAll(".modal-fondo").forEach(m => {
+    m.addEventListener("click", (e) => {
+      if (e.target === m){
+        if (m.id === "modal-modulo") cerrarModalModulo();
+        if (m.id === "modal-deseo") cerrarModalDeseo();
+        if (m.id === "modal-evento") cerrarModalEvento();
+        if (m.id === "modal-responsable") cerrarModalResponsable();
+        if (m.id === "modal-prueba") cerrarModalPrueba();
+        if (m.id === "modal-confirmar") m.classList.remove("visible");
+        if (m.id === "modal-preview"){ m.classList.remove("visible"); $("preview-body").innerHTML = ""; }
+      }
+    });
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape"){
+      cerrarModalModulo();
+      cerrarModalDeseo();
+      cerrarModalEvento();
+      cerrarModalResponsable();
+      cerrarModalPrueba();
+      $("modal-confirmar").classList.remove("visible");
+      $("modal-preview").classList.remove("visible");
+      cerrarDrawer();
+    }
+  });
+
+  $("btn-guardar-modulo").addEventListener("click", guardarModulo);
+  $("btn-guardar-deseo").addEventListener("click", guardarDeseo);
+  $("btn-guardar-evento").addEventListener("click", guardarEvento);
+  $("btn-nuevo-modulo").addEventListener("click", () => abrirModalModulo());
+  $("btn-agendar").addEventListener("click", () => abrirModalEvento());
+
+  $("cal-prev").addEventListener("click", () => {
+    fechaActual.setMonth(fechaActual.getMonth() - 1);
+    renderizarCalendario();
+  });
+  $("cal-next").addEventListener("click", () => {
+    fechaActual.setMonth(fechaActual.getMonth() + 1);
+    renderizarCalendario();
+  });
+
+  $("evento-todo-dia").addEventListener("change", (e) => {
+    $("evento-hora-ini").disabled = e.target.checked;
+    $("evento-hora-fin").disabled = e.target.checked;
+    if (e.target.checked){
+      $("evento-hora-ini").value = "";
+      $("evento-hora-fin").value = "";
+    }
+  });
+
+  cargarTodo();
+}
+
+document.addEventListener("DOMContentLoaded", inicializar);
+</script>
+</body>
+</html>
