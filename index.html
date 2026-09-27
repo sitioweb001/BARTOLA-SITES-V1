@@ -341,16 +341,16 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 }
 .calendario__grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }
 .dia{
-  aspect-ratio:1; border-radius:14px; border:none;
+  min-height:64px; border-radius:14px; border:none;
   background: rgba(244,236,252,0.7); color: var(--texto);
   font-family:var(--f-body); font-weight:700; font-size:0.92rem;
   cursor:pointer;
   transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
   position:relative;
-  display:flex; align-items:center; justify-content:center;
-  padding:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:5px 2px 4px; gap:2px; overflow:hidden;
 }
-.dia:hover{ background: var(--lila-3); transform:translateY(-2px) scale(1.06); box-shadow: 0 8px 18px var(--shadow); }
+.dia:hover{ background: var(--lila-3); transform:translateY(-2px) scale(1.04); box-shadow: 0 8px 18px var(--shadow); }
 .dia.vacio{ background:transparent; cursor:default; pointer-events:none; }
 .dia.hoy{
   background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
@@ -358,20 +358,24 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 }
 .dia.finde{ background: linear-gradient(135deg, #FDE8F1, var(--rosa)); color:#8A4168; }
 .dia.finde:hover{ background: linear-gradient(135deg, #FBD5E4, #EBAFCE); }
-.dia.con-evento::after{
-  content:""; position:absolute; bottom:5px;
-  width:7px;height:7px; border-radius:50%;
-  background: var(--lila-6);
-  box-shadow: 0 0 8px rgba(147,112,184,0.6);
+.dia__num{ font-size:0.92rem; line-height:1; }
+.dia__emojis{ font-size:0.85rem; line-height:1; letter-spacing:-1px; white-space:nowrap; }
+.dia__texto{
+  font-family:var(--f-body); font-weight:600; font-size:0.55rem;
+  line-height:1.1; color: var(--lila-7); opacity:0.85;
+  max-width:100%; overflow:hidden; text-overflow:ellipsis;
+  white-space:nowrap; padding:0 2px;
 }
-.dia.hoy.con-evento::after, .dia.seleccionado.con-evento::after{ background:#fff; box-shadow: 0 0 8px rgba(255,255,255,0.9); }
+.dia.hoy .dia__texto, .dia.seleccionado .dia__texto{ color:#fff; opacity:0.95; }
 .dia.cumplido::before{
   content:"✓"; position:absolute; top:3px; right:5px;
   font-size:0.65rem; font-weight:900; color: var(--puede-esperar);
+  z-index:1;
 }
+.dia.hoy.cumplido::before, .dia.seleccionado.cumplido::before{ color:#fff; }
 .dia.seleccionado{
   background: linear-gradient(135deg, var(--lila-5), var(--lila-7));
-  color:#fff; transform: scale(1.1);
+  color:#fff; transform: scale(1.06);
   box-shadow: 0 12px 26px rgba(126,90,160,0.55); z-index:2;
 }
 .dia.pulse{ animation: pulseDia 0.7s ease; }
@@ -588,7 +592,54 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
   color:#fff; border-color: transparent;
 }
+.bartolo-aviso{
+  display:flex; gap:12px; align-items:flex-start;
+  background: linear-gradient(135deg, #FEF6E6, #fff);
+  border:1px solid rgba(232,181,86,0.4); border-left:5px solid var(--importante);
+  border-radius:18px; padding:14px 16px; margin-bottom:18px;
+  box-shadow: 0 10px 24px var(--shadow); animation: entrarSuave 0.4s ease;
+}
+.bartolo-aviso__icono{ font-size:1.6rem; flex-shrink:0; }
+.bartolo-aviso__titulo{ font-weight:700; color:#8A6320; font-size:0.95rem; margin-bottom:4px; }
+.bartolo-aviso__linea{ font-size:0.82rem; color:var(--texto-suave); line-height:1.5; }
+.bartolo-aviso__linea b{ color:var(--lila-8); }
+.bartolo-seccion-titulo{
+  font-family:var(--f-hand); font-size:1.4rem; color:var(--lila-8);
+  font-weight:700; margin: 22px 0 12px; display:flex; align-items:center; gap:8px;
+}
 .bartolo-lista{ display:flex; flex-direction:column; gap:14px; }
+.bartolo-deseos-modulo{ margin-bottom: 18px; }
+.bartolo-deseos-modulo__titulo{
+  font-weight:700; color:var(--lila-7); font-size:0.9rem;
+  display:flex; align-items:center; gap:6px; margin-bottom:10px;
+  padding-bottom:6px; border-bottom:1px dashed var(--lila-3);
+}
+.bartolo-deseo{
+  background:#fff; border-radius:14px; padding:10px 14px;
+  border-left:5px solid var(--sin-prioridad);
+  box-shadow: 0 6px 14px var(--shadow);
+  display:flex; align-items:center; gap:10px; margin-bottom:8px;
+  animation: entrarSuave 0.35s ease;
+}
+.bartolo-deseo[data-prioridad="🔴 Urgente"]{ border-left-color: var(--urgente); }
+.bartolo-deseo[data-prioridad="🟡 Importante"]{ border-left-color: var(--importante); }
+.bartolo-deseo[data-prioridad="🟢 Puede esperar"]{ border-left-color: var(--puede-esperar); }
+.bartolo-deseo.cumplido{ opacity:0.7; background: linear-gradient(135deg, #EEF9F3, #fff); }
+.bartolo-deseo.cumplido .bartolo-deseo__nombre{ text-decoration:line-through; text-decoration-color:var(--puede-esperar); }
+.bartolo-deseo__info{ flex:1; min-width:0; }
+.bartolo-deseo__nombre{ font-weight:700; color:var(--lila-8); font-size:0.92rem; }
+.bartolo-deseo__badge{
+  display:inline-block; padding:2px 9px; border-radius:999px; margin-left:6px;
+  font-size:0.65rem; font-weight:700; background: var(--lila-2); color: var(--lila-7);
+  vertical-align:middle;
+}
+.bartolo-deseo__check{
+  flex-shrink:0; width:34px; height:34px; border-radius:50%; border:none;
+  background: var(--lila-2); color: var(--lila-7); font-size:1rem; cursor:pointer;
+  transition: all 0.2s; display:flex; align-items:center; justify-content:center;
+}
+.bartolo-deseo__check:hover{ background: var(--lila-4); color:#fff; transform:scale(1.08); }
+.bartolo-deseo.cumplido .bartolo-deseo__check{ background: linear-gradient(135deg,#A8DCC0,var(--puede-esperar)); color:#fff; }
 .bartolo-item{
   background: linear-gradient(135deg, #fff, rgba(244,236,252,0.7));
   border:1px solid rgba(200,162,224,0.4);
@@ -783,7 +834,10 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   .tab{ padding: 12px 10px; font-size:0.85rem; }
   main{ padding: 18px 12px; }
   .calendario{ padding: 14px; }
-  .dia{ font-size: 0.82rem; border-radius: 11px; }
+  .dia{ min-height:52px; border-radius: 11px; }
+  .dia__num{ font-size: 0.8rem; }
+  .dia__emojis{ font-size: 0.72rem; }
+  .dia__texto{ display:none; }
   .bartolo-item{ flex-direction: column; }
   .bartolo-item__acciones{ flex-direction: row; width: 100%; }
   .bartolo-item__acciones .btn{ flex:1; }
@@ -791,7 +845,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 @media (max-width: 380px){
   .topbar__logo .titulo{ font-size:0.95rem; }
   .hero h1{ font-size: 2rem; }
-  .dia{ font-size: 0.75rem; }
+  .dia__num{ font-size: 0.72rem; }
 }
 </style>
 </head>
@@ -938,6 +992,8 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
       <div class="stat-card"><div class="stat-card__num" id="stat-urgentes">0</div><div class="stat-card__label">Urgentes 🔴</div></div>
     </div>
 
+    <div id="bartolo-aviso-contenedor"></div>
+
     <div class="filtros-bartolo">
       <button class="filtro-chip activo" data-filtro="todos">Todos</button>
       <button class="filtro-chip" data-filtro="pendientes">Pendientes</button>
@@ -945,7 +1001,11 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
       <button class="filtro-chip" data-filtro="hoy">Hoy</button>
     </div>
 
+    <div class="bartolo-seccion-titulo">📅 Eventos</div>
     <div class="bartolo-lista" id="bartolo-lista"></div>
+
+    <div class="bartolo-seccion-titulo">🌸 Deseos pendientes (por módulo)</div>
+    <div id="bartolo-deseos"></div>
   </section>
 
   <section class="vista" id="vista-notificaciones">
@@ -1549,6 +1609,7 @@ async function guardarDeseo(){
       toast(modoEdicionDeseo ? "Deseo actualizado 💜" : "¡Deseo añadido!", "ok");
       cerrarModalDeseo();
       await cargarTodo();
+      if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
     } else toast(r.error || "Error al guardar", "error");
   } catch(e){ toast("Error de conexión", "error"); }
   finally { restaurar(); ocultarLoader(); }
@@ -1559,7 +1620,11 @@ async function eliminarDeseo(id){
     mostrarLoader("Eliminando...");
     try {
       const r = await apiPost({ accion: "eliminarDeseo", id });
-      if (r.ok){ toast("Deseo eliminado", "ok"); await cargarTodo(); }
+      if (r.ok){
+        toast("Deseo eliminado", "ok");
+        await cargarTodo();
+        if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
+      }
       else toast(r.error || "Error", "error");
     } catch(e){ toast("Error de conexión", "error"); }
     finally { ocultarLoader(); }
@@ -1655,18 +1720,34 @@ function renderizarCalendario(){
     btn.className = "dia";
     const fechaStr = `${anio}-${pad(mes+1)}-${pad(d)}`;
     const dow = new Date(anio, mes, d).getDay();
-    btn.textContent = d;
     btn.dataset.fecha = fechaStr;
 
     if (dow === 0 || dow === 6) btn.classList.add("finde");
     if (fechaStr === hoyStr) btn.classList.add("hoy");
     if (fechaStr === selStr) btn.classList.add("seleccionado");
 
-    const evs = mapa[fechaStr] || [];
+    const evs = (mapa[fechaStr] || []).sort((a,b) => (a.horaInicio||"").localeCompare(b.horaInicio||""));
+    let emojisHtml = "";
+    let textoHtml = "";
+    let tituloAtributo = "";
     if (evs.length){
       btn.classList.add("con-evento");
       if (evs.every(e => e.cumplido)) btn.classList.add("cumplido");
+
+      const emojis = evs.slice(0, 3).map(e => {
+        const t = e.tipo || "💜";
+        return t.trim().split(" ")[0];
+      }).join("");
+      emojisHtml = `<div class="dia__emojis">${esc(emojis)}</div>`;
+
+      const primero = evs[0];
+      const restoTexto = evs.length > 1 ? ` +${evs.length - 1}` : "";
+      textoHtml = `<div class="dia__texto">${esc(primero.titulo)}${restoTexto}</div>`;
+      tituloAtributo = evs.map(e => `${e.tipo || "💜"} ${e.titulo}`).join(" · ");
     }
+
+    btn.innerHTML = `<div class="dia__num">${d}</div>${emojisHtml}${textoHtml}`;
+    if (tituloAtributo) btn.title = tituloAtributo;
 
     btn.addEventListener("click", () => seleccionarDia(fechaStr, btn));
     grid.appendChild(btn);
@@ -1851,6 +1932,127 @@ function lanzarCorazones(){
 }
 
 /* VISTA BARTOLO */
+function renderizarAvisoProximasFechas(){
+  const cont = $("bartolo-aviso-contenedor");
+  if (!cont) return;
+
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const limite = new Date(hoy); limite.setDate(limite.getDate() + 7);
+
+  const proximos = eventos
+    .filter(e => !e.cumplido)
+    .filter(e => {
+      const f = new Date(e.fecha + "T00:00:00");
+      return f >= hoy && f <= limite;
+    })
+    .sort((a,b) => (a.fecha + a.horaInicio).localeCompare(b.fecha + b.horaInicio));
+
+  if (!proximos.length){
+    cont.innerHTML = "";
+    return;
+  }
+
+  const hoyStr = ymd(hoy);
+  const lineas = proximos.slice(0, 5).map(ev => {
+    const f = new Date(ev.fecha + "T00:00:00");
+    const cuando = ev.fecha === hoyStr ? "Hoy" : `${f.getDate()} ${MESES_CORTOS[f.getMonth()]}`;
+    return `<div class="bartolo-aviso__linea">${esc(ev.tipo || "💜")} <b>${esc(ev.titulo)}</b> — ${cuando}${ev.horaInicio && !ev.todoElDia ? " · " + esc(ev.horaInicio) : ""}</div>`;
+  }).join("");
+
+  cont.innerHTML = `
+    <div class="bartolo-aviso">
+      <div class="bartolo-aviso__icono">🔔</div>
+      <div style="flex:1;min-width:0;">
+        <div class="bartolo-aviso__titulo">${proximos.length} fecha${proximos.length === 1 ? "" : "s"} se acerca${proximos.length === 1 ? "" : "n"} en los próximos 7 días</div>
+        ${lineas}
+      </div>
+    </div>
+  `;
+}
+
+function renderizarDeseosBartolo(){
+  const cont = $("bartolo-deseos");
+  if (!cont) return;
+
+  let listaDes = [...deseos];
+  if (filtroBartolo === "pendientes") listaDes = listaDes.filter(d => !d.cumplido);
+  if (filtroBartolo === "cumplidos") listaDes = listaDes.filter(d => d.cumplido);
+  // el filtro "hoy" no aplica a deseos (no tienen fecha), se muestran todos
+
+  if (!listaDes.length){
+    cont.innerHTML = `<div class="vacio-msg"><span class="emoji">🌸</span>No hay deseos con este filtro.</div>`;
+    return;
+  }
+
+  const porModulo = {};
+  listaDes.forEach(d => {
+    const key = String(d.moduloId || "");
+    if (!porModulo[key]) porModulo[key] = [];
+    porModulo[key].push(d);
+  });
+
+  const modulosOrdenados = [...modulos].sort((a,b) => (a.orden||0) - (b.orden||0));
+  const bloques = [];
+
+  modulosOrdenados.forEach(mod => {
+    const ds = (porModulo[String(mod.id)] || []).sort((a,b) => (a.orden||0) - (b.orden||0));
+    delete porModulo[String(mod.id)];
+    if (!ds.length) return;
+    bloques.push(renderBloqueModuloDeseos(mod.icono + " " + mod.nombre, ds));
+  });
+
+  // deseos sin módulo (por si acaso)
+  Object.keys(porModulo).forEach(key => {
+    const ds = porModulo[key];
+    if (ds && ds.length) bloques.push(renderBloqueModuloDeseos("🌸 Sin módulo", ds));
+  });
+
+  cont.innerHTML = bloques.join("");
+
+  cont.querySelectorAll("[data-deseo-check]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.deseoCheck;
+      const d = deseos.find(x => String(x.id) === String(id));
+      marcarCumplidoDeseo(id, !d.cumplido);
+    });
+  });
+}
+
+function renderBloqueModuloDeseos(tituloModulo, ds){
+  return `
+    <div class="bartolo-deseos-modulo">
+      <div class="bartolo-deseos-modulo__titulo">${esc(tituloModulo)}</div>
+      ${ds.map(d => {
+        const prioridad = d.prioridad || "⚪ Sin prioridad";
+        return `
+          <div class="bartolo-deseo ${d.cumplido ? "cumplido" : ""}" data-prioridad="${esc(prioridad)}">
+            <div class="bartolo-deseo__info">
+              <span class="bartolo-deseo__nombre">${esc(d.nombre)}</span>
+              <span class="bartolo-deseo__badge">${esc(prioridad)}</span>
+            </div>
+            <button class="bartolo-deseo__check" data-deseo-check="${esc(d.id)}" title="${d.cumplido ? "Desmarcar" : "Marcar cumplido"}">
+              ${d.cumplido ? "↩️" : "✓"}
+            </button>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
+async function marcarCumplidoDeseo(id, cumplido){
+  mostrarLoader(cumplido ? "Marcando..." : "Desmarcando...");
+  try {
+    const r = await apiPost({ accion: "marcarCumplidoDeseo", id, cumplido });
+    if (r.ok){
+      toast(cumplido ? "¡Deseo cumplido! 💜" : "Desmarcado", "ok");
+      await cargarDeseos();
+      renderizarBartolo();
+    } else toast(r.error || "Error", "error");
+  } catch(e){ toast("Error de conexión", "error"); }
+  finally { ocultarLoader(); }
+}
+
 function renderizarBartolo(){
   const hoyStr = ymd(new Date());
   const lista = $("bartolo-lista");
@@ -1858,12 +2060,15 @@ function renderizarBartolo(){
   const total = eventos.length;
   const cumplidos = eventos.filter(e => e.cumplido).length;
   const pendientes = total - cumplidos;
-  const urgentes = deseos.filter(d => d.prioridad === "🔴 Urgente").length;
+  const urgentes = deseos.filter(d => d.prioridad === "🔴 Urgente" && !d.cumplido).length;
 
   $("stat-total").textContent = total;
   $("stat-cumplidos").textContent = cumplidos;
   $("stat-pendientes").textContent = pendientes;
   $("stat-urgentes").textContent = urgentes;
+
+  renderizarAvisoProximasFechas();
+  renderizarDeseosBartolo();
 
   let listaEv = [...eventos].sort((a,b) => (a.fecha + a.horaInicio).localeCompare(b.fecha + b.horaInicio));
   if (filtroBartolo === "pendientes") listaEv = listaEv.filter(e => !e.cumplido);
@@ -2111,6 +2316,13 @@ async function cargarEventos(){
   try {
     const r = await apiGet("obtenerEventos");
     if (r.ok) eventos = r.datos || [];
+  } catch(e){ console.error(e); }
+}
+
+async function cargarDeseos(){
+  try {
+    const r = await apiGet("obtenerDeseos");
+    if (r.ok) deseos = r.datos || [];
   } catch(e){ console.error(e); }
 }
 

@@ -264,6 +264,7 @@ async function crearDeseo(d) {
     url,
     prioridad,
     descripcion,
+    cumplido: false,
     fechaCreacion: ahora,
     fechaActualizacion: ahora,
     activo: true
@@ -296,6 +297,14 @@ async function eliminarDeseo(d) {
   const doc = await ref.get();
   if (!doc.exists) return { ok: false, error: "Deseo no encontrado" };
   await ref.delete();
+  return { ok: true };
+}
+
+async function marcarCumplidoDeseo(d) {
+  const ref = db.collection(COL.deseos).doc(String(d.id));
+  const doc = await ref.get();
+  if (!doc.exists) return { ok: false, error: "Deseo no encontrado" };
+  await ref.update({ cumplido: !!d.cumplido, fechaActualizacion: nowISO() });
   return { ok: true };
 }
 
@@ -499,6 +508,7 @@ async function apiPost(payload) {
       case "crearDeseo": return await crearDeseo(payload);
       case "actualizarDeseo": return await actualizarDeseo(payload);
       case "eliminarDeseo": return await eliminarDeseo(payload);
+      case "marcarCumplidoDeseo": return await marcarCumplidoDeseo(payload);
       case "crearEvento": return await crearEvento(payload);
       case "actualizarEvento": return await actualizarEvento(payload);
       case "eliminarEvento": return await eliminarEvento(payload);
