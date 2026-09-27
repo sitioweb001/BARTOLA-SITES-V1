@@ -572,12 +572,23 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   border-radius:18px; padding: 16px;
   text-align:center;
   box-shadow: 0 10px 22px var(--shadow);
+  cursor:pointer; transition: all 0.2s;
 }
+.stat-card:hover{ background: var(--lila-2); transform: translateY(-2px); box-shadow: 0 14px 28px var(--shadow); }
+.stat-card.activo{
+  background: linear-gradient(135deg, var(--lila-4), var(--lila-6));
+  border-color: transparent;
+}
+.stat-card.activo .stat-card__num, .stat-card.activo .stat-card__label{ color:#fff; }
 .stat-card__num{ font-family:var(--f-hand); font-size:2.4rem; font-weight:700; color: var(--lila-6); line-height:1; }
 .stat-card__label{
   font-size:0.78rem; color: var(--texto-suave);
   text-transform:uppercase; letter-spacing:0.05em;
   margin-top:4px; font-weight:600;
+}
+.bartolo-tip{
+  font-size:0.78rem; color: var(--texto-suave); text-align:center;
+  margin-bottom:16px; opacity:0.85;
 }
 .filtros-bartolo{ display:flex; gap:8px; margin-bottom: 18px; flex-wrap:wrap; }
 .filtro-chip{
@@ -626,19 +637,23 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 .bartolo-deseo[data-prioridad="🟢 Puede esperar"]{ border-left-color: var(--puede-esperar); }
 .bartolo-deseo.cumplido{ opacity:0.7; background: linear-gradient(135deg, #EEF9F3, #fff); }
 .bartolo-deseo.cumplido .bartolo-deseo__nombre{ text-decoration:line-through; text-decoration-color:var(--puede-esperar); }
-.bartolo-deseo__info{ flex:1; min-width:0; }
+.bartolo-deseo__info{ flex:1; min-width:0; cursor:pointer; border-radius:10px; transition: background 0.15s; padding:2px 6px; margin:-2px -6px; }
+.bartolo-deseo__info:hover{ background: rgba(147,112,184,0.08); }
 .bartolo-deseo__nombre{ font-weight:700; color:var(--lila-8); font-size:0.92rem; }
 .bartolo-deseo__badge{
   display:inline-block; padding:2px 9px; border-radius:999px; margin-left:6px;
   font-size:0.65rem; font-weight:700; background: var(--lila-2); color: var(--lila-7);
   vertical-align:middle;
 }
-.bartolo-deseo__check{
+.bartolo-deseo__acciones{ display:flex; gap:6px; flex-shrink:0; }
+.bartolo-deseo__check, .bartolo-deseo__editar, .bartolo-deseo__eliminar{
   flex-shrink:0; width:34px; height:34px; border-radius:50%; border:none;
   background: var(--lila-2); color: var(--lila-7); font-size:1rem; cursor:pointer;
   transition: all 0.2s; display:flex; align-items:center; justify-content:center;
 }
-.bartolo-deseo__check:hover{ background: var(--lila-4); color:#fff; transform:scale(1.08); }
+.bartolo-deseo__check:hover, .bartolo-deseo__editar:hover{ background: var(--lila-4); color:#fff; transform:scale(1.08); }
+.bartolo-deseo__eliminar{ background: #FCE4EA; color: var(--urgente); }
+.bartolo-deseo__eliminar:hover{ background: var(--urgente); color:#fff; transform:scale(1.08); }
 .bartolo-deseo.cumplido .bartolo-deseo__check{ background: linear-gradient(135deg,#A8DCC0,var(--puede-esperar)); color:#fff; }
 .bartolo-item{
   background: linear-gradient(135deg, #fff, rgba(244,236,252,0.7));
@@ -658,7 +673,8 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 .bartolo-item.cumplido .bartolo-item__fecha{ background: linear-gradient(135deg, #A8DCC0, var(--puede-esperar)); }
 .bartolo-item__fecha .d{ font-family:var(--f-hand); font-size:1.8rem; font-weight:700; line-height:1; }
 .bartolo-item__fecha .m{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; margin-top:2px; }
-.bartolo-item__info{ flex:1; min-width:0; }
+.bartolo-item__info{ flex:1; min-width:0; cursor:pointer; border-radius:12px; transition: background 0.15s; padding:2px 6px; margin:-2px -6px; }
+.bartolo-item__info:hover{ background: rgba(147,112,184,0.08); }
 .bartolo-item__info h4{
   font-size:1.05rem; color: var(--lila-8); margin-bottom:6px;
   display:flex; align-items:center; gap:8px; flex-wrap:wrap;
@@ -839,8 +855,8 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   .dia__emojis{ font-size: 0.72rem; }
   .dia__texto{ display:none; }
   .bartolo-item{ flex-direction: column; }
-  .bartolo-item__acciones{ flex-direction: row; width: 100%; }
-  .bartolo-item__acciones .btn{ flex:1; }
+  .bartolo-item__acciones{ flex-direction: row; width: 100%; flex-wrap:wrap; }
+  .bartolo-item__acciones .btn{ flex:1; min-width:90px; }
 }
 @media (max-width: 380px){
   .topbar__logo .titulo{ font-size:0.95rem; }
@@ -986,11 +1002,13 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
     </div>
 
     <div class="bartolo-stats">
-      <div class="stat-card"><div class="stat-card__num" id="stat-total">0</div><div class="stat-card__label">Eventos</div></div>
-      <div class="stat-card"><div class="stat-card__num" id="stat-cumplidos">0</div><div class="stat-card__label">Cumplidos</div></div>
-      <div class="stat-card"><div class="stat-card__num" id="stat-pendientes">0</div><div class="stat-card__label">Pendientes</div></div>
-      <div class="stat-card"><div class="stat-card__num" id="stat-urgentes">0</div><div class="stat-card__label">Urgentes 🔴</div></div>
+      <div class="stat-card activo" id="stat-card-total" data-filtro="todos"><div class="stat-card__num" id="stat-total">0</div><div class="stat-card__label">Eventos</div></div>
+      <div class="stat-card" id="stat-card-cumplidos" data-filtro="cumplidos"><div class="stat-card__num" id="stat-cumplidos">0</div><div class="stat-card__label">Cumplidos</div></div>
+      <div class="stat-card" id="stat-card-pendientes" data-filtro="pendientes"><div class="stat-card__num" id="stat-pendientes">0</div><div class="stat-card__label">Pendientes</div></div>
+      <div class="stat-card" id="stat-card-urgentes" data-filtro="urgentes"><div class="stat-card__num" id="stat-urgentes">0</div><div class="stat-card__label">Urgentes 🔴</div></div>
     </div>
+
+    <div class="bartolo-tip">👆 Toca cualquier tarjeta o resultado para filtrar. Toca un evento o deseo para editarlo.</div>
 
     <div id="bartolo-aviso-contenedor"></div>
 
@@ -999,6 +1017,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
       <button class="filtro-chip" data-filtro="pendientes">Pendientes</button>
       <button class="filtro-chip" data-filtro="cumplidos">Cumplidos</button>
       <button class="filtro-chip" data-filtro="hoy">Hoy</button>
+      <button class="filtro-chip" data-filtro="urgentes">Urgentes 🔴</button>
     </div>
 
     <div class="bartolo-seccion-titulo">📅 Eventos</div>
@@ -1881,6 +1900,7 @@ async function guardarEvento(){
       await cargarEventos();
       renderizarCalendario();
       renderizarEventosDelDia();
+      if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
     } else toast(r.error || "Error al guardar", "error");
   } catch(e){ toast("Error de conexión", "error"); }
   finally { restaurar(); ocultarLoader(); }
@@ -1896,6 +1916,7 @@ async function eliminarEvento(id){
         await cargarEventos();
         renderizarCalendario();
         renderizarEventosDelDia();
+        if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
       } else toast(r.error || "Error", "error");
     } catch(e){ toast("Error de conexión", "error"); }
     finally { ocultarLoader(); }
@@ -1977,6 +1998,7 @@ function renderizarDeseosBartolo(){
   let listaDes = [...deseos];
   if (filtroBartolo === "pendientes") listaDes = listaDes.filter(d => !d.cumplido);
   if (filtroBartolo === "cumplidos") listaDes = listaDes.filter(d => d.cumplido);
+  if (filtroBartolo === "urgentes") listaDes = listaDes.filter(d => d.prioridad === "🔴 Urgente" && !d.cumplido);
   // el filtro "hoy" no aplica a deseos (no tienen fecha), se muestran todos
 
   if (!listaDes.length){
@@ -2010,10 +2032,32 @@ function renderizarDeseosBartolo(){
   cont.innerHTML = bloques.join("");
 
   cont.querySelectorAll("[data-deseo-check]").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const id = btn.dataset.deseoCheck;
       const d = deseos.find(x => String(x.id) === String(id));
       marcarCumplidoDeseo(id, !d.cumplido);
+    });
+  });
+  cont.querySelectorAll("[data-deseo-editar]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.deseoEditar;
+      const d = deseos.find(x => String(x.id) === String(id));
+      if (d) abrirModalDeseo(d, d.moduloId);
+    });
+  });
+  cont.querySelectorAll("[data-deseo-eliminar]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      eliminarDeseo(btn.dataset.deseoEliminar);
+    });
+  });
+  cont.querySelectorAll("[data-deseo-abrir]").forEach(info => {
+    info.addEventListener("click", () => {
+      const id = info.dataset.deseoAbrir;
+      const d = deseos.find(x => String(x.id) === String(id));
+      if (d) abrirModalDeseo(d, d.moduloId);
     });
   });
 }
@@ -2026,13 +2070,17 @@ function renderBloqueModuloDeseos(tituloModulo, ds){
         const prioridad = d.prioridad || "⚪ Sin prioridad";
         return `
           <div class="bartolo-deseo ${d.cumplido ? "cumplido" : ""}" data-prioridad="${esc(prioridad)}">
-            <div class="bartolo-deseo__info">
+            <div class="bartolo-deseo__info" data-deseo-abrir="${esc(d.id)}" title="Toca para editar">
               <span class="bartolo-deseo__nombre">${esc(d.nombre)}</span>
               <span class="bartolo-deseo__badge">${esc(prioridad)}</span>
             </div>
-            <button class="bartolo-deseo__check" data-deseo-check="${esc(d.id)}" title="${d.cumplido ? "Desmarcar" : "Marcar cumplido"}">
-              ${d.cumplido ? "↩️" : "✓"}
-            </button>
+            <div class="bartolo-deseo__acciones">
+              <button class="bartolo-deseo__check" data-deseo-check="${esc(d.id)}" title="${d.cumplido ? "Desmarcar" : "Marcar cumplido"}">
+                ${d.cumplido ? "↩️" : "✓"}
+              </button>
+              <button class="bartolo-deseo__editar" data-deseo-editar="${esc(d.id)}" title="Editar">✏️</button>
+              <button class="bartolo-deseo__eliminar" data-deseo-eliminar="${esc(d.id)}" title="Eliminar">🗑️</button>
+            </div>
           </div>
         `;
       }).join("")}
@@ -2092,7 +2140,7 @@ function renderizarBartolo(){
           <div class="d">${d.getDate()}</div>
           <div class="m">${MESES_CORTOS[d.getMonth()]}</div>
         </div>
-        <div class="bartolo-item__info">
+        <div class="bartolo-item__info" data-accion="editar" data-id="${esc(ev.id)}" title="Toca para editar">
           <h4>${esc(ev.titulo)} <span class="evento__tipo">${esc(ev.tipo || "")}</span></h4>
           <div class="detalle">🕐 ${esc(hora)}</div>
           ${ev.lugar ? `<div class="detalle">📍 ${esc(ev.lugar)}</div>` : ""}
@@ -2105,28 +2153,36 @@ function renderizarBartolo(){
             ${ev.cumplido ? "↩️" : "✓"} ${ev.cumplido ? "Desmarcar" : "Cumplido"}
           </button>
           <button class="btn btn--sm btn--ghost" data-accion="editar" data-id="${esc(ev.id)}">✏️ Editar</button>
+          <button class="btn btn--sm btn--peligro" data-accion="eliminar" data-id="${esc(ev.id)}">🗑️ Eliminar</button>
         </div>
       </div>
     `;
   }).join("");
 
   lista.querySelectorAll("[data-accion]").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const id = btn.dataset.id;
       const ev = eventos.find(x => String(x.id) === String(id));
       if (btn.dataset.accion === "cumplido") marcarCumplido(id, !ev.cumplido);
       if (btn.dataset.accion === "editar") abrirModalEvento(ev);
+      if (btn.dataset.accion === "eliminar") eliminarEvento(id);
     });
   });
 }
 
+function activarFiltroBartolo(filtro){
+  filtroBartolo = filtro;
+  document.querySelectorAll(".filtro-chip").forEach(c => c.classList.toggle("activo", c.dataset.filtro === filtro));
+  document.querySelectorAll(".stat-card").forEach(c => c.classList.toggle("activo", c.dataset.filtro === filtro));
+  renderizarBartolo();
+}
+
 document.querySelectorAll(".filtro-chip").forEach(chip => {
-  chip.addEventListener("click", () => {
-    document.querySelectorAll(".filtro-chip").forEach(c => c.classList.remove("activo"));
-    chip.classList.add("activo");
-    filtroBartolo = chip.dataset.filtro;
-    renderizarBartolo();
-  });
+  chip.addEventListener("click", () => activarFiltroBartolo(chip.dataset.filtro));
+});
+document.querySelectorAll(".stat-card[data-filtro]").forEach(card => {
+  card.addEventListener("click", () => activarFiltroBartolo(card.dataset.filtro));
 });
 
 /* RESPONSABLES */
