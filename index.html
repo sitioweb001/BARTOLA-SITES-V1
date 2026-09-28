@@ -166,6 +166,36 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 .btn:active:not(:disabled){ transform: translateY(0) scale(0.97); }
 .btn:disabled{ opacity:0.6; cursor:not-allowed; }
 .btn--bloque{ width:100%; margin-top:18px; }
+.buscador-wrap{
+  position:relative; display:flex; align-items:center;
+  background:#fff; border:1.5px solid var(--lila-3); border-radius:16px;
+  padding:0 14px; box-shadow: 0 6px 16px var(--shadow); margin-top:6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.buscador-wrap:focus-within{ border-color: var(--lila-5); box-shadow: 0 8px 22px rgba(147,112,184,0.28); }
+.buscador-icono{ font-size:1rem; opacity:0.7; }
+.buscador-input{
+  flex:1; border:none; outline:none; background:transparent;
+  padding:13px 10px; font-family:var(--f-body); font-size:0.95rem; color:var(--texto);
+}
+.buscador-limpiar{
+  border:none; background:var(--lila-2); color:var(--lila-7); width:26px; height:26px;
+  border-radius:50%; cursor:pointer; font-size:0.75rem;
+}
+.buscador-limpiar:hover{ background:var(--lila-4); color:#fff; }
+.modulo__badge{
+  display:inline-block; margin-left:8px; padding:2px 10px; border-radius:999px;
+  font-size:0.68rem; font-weight:700; background:var(--lila-2); color:var(--lila-7);
+  vertical-align:middle; font-family:var(--f-body);
+}
+.modulo__badge.urgente{ background:#FCE4EA; color:var(--urgente); }
+.offline-banner{
+  position:fixed; top:0; left:0; right:0; z-index:9999;
+  background:linear-gradient(135deg,#F2A3B4,var(--urgente)); color:#fff;
+  text-align:center; padding:8px 12px; font-size:0.85rem; font-weight:700;
+  transform:translateY(-100%); transition:transform 0.3s;
+}
+.offline-banner.visible{ transform:translateY(0); }
 .btn--sm{ padding: 8px 16px; font-size:0.85rem; }
 .btn--ghost{ background: rgba(255,255,255,0.8); color:var(--lila-7); box-shadow: 0 6px 14px var(--shadow); }
 .btn--ghost:hover:not(:disabled){ background: var(--lila-2); }
@@ -937,6 +967,8 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   <button class="instalar-banner__cerrar" id="instalar-banner-cerrar" aria-label="Cerrar">✕</button>
 </div>
 
+<div class="offline-banner" id="offline-banner" role="status">📡 Sin conexión — los cambios no se guardarán hasta que vuelva internet</div>
+
 <section class="hero">
   <h1>💜 Deseos de Bartolita 💜</h1>
   <p>Un lugar para guardar nuestros deseos, planes y momentos juntos.</p>
@@ -952,6 +984,12 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   <section class="vista activa" id="vista-deseos">
     <h2 class="titulo-seccion">💜 Nuestra lista de deseos</h2>
     <p class="subtitulo-seccion">Aquí guardamos esas cosas que queremos hacer, visitar, comprar o vivir juntos.</p>
+
+    <div class="buscador-wrap">
+      <span class="buscador-icono">🔍</span>
+      <input type="text" id="buscador-deseos" class="buscador-input" placeholder="Buscar un deseo por nombre..." aria-label="Buscar deseo">
+      <button class="buscador-limpiar" id="buscador-limpiar" style="display:none;" aria-label="Limpiar búsqueda">✕</button>
+    </div>
 
     <button class="btn btn--bloque" id="btn-nuevo-modulo">
       <span>＋</span> Nuevo módulo
@@ -1416,16 +1454,34 @@ $("drawer-nuevo-evento").addEventListener("click", () => {
 });
 
 /* MÓDULOS */
+document.addEventListener("click", () => {
+  document.querySelectorAll(".menu-dropdown.abierto").forEach(m => m.classList.remove("abierto"));
+});
+
+let busquedaDeseos = "";
+
 function renderizarModulos(){
   const grid = $("modulos-grid");
   if (!modulos.length){
     grid.innerHTML = `<div class="vacio-msg" style="grid-column:1/-1;"><span class="emoji">🌸</span>Aún no hay módulos.<br>¡Crea el primero!</div>`;
     return;
   }
-  grid.innerHTML = modulos.map(m => {
-    const ds = deseos
+  const q = busquedaDeseos.trim().toLowerCase();
+  const modulosMostrar = modulos.filter(m => {
+    if (!q) return true;
+    return deseos.some(d => String(d.moduloId) === String(m.id) && String(d.nombre || "").toLowerCase().includes(q));
+  });
+  if (!modulosMostrar.length){
+    grid.innerHTML = `<div class="vacio-msg" style="grid-column:1/-1;"><span class="emoji">🔍</span>No encontré deseos con "${esc(busquedaDeseos)}".</div>`;
+    return;
+  }
+  grid.innerHTML = modulosMostrar.map(m => {
+    const todos = deseos
       .filter(d => String(d.moduloId) === String(m.id))
       .sort((a,b) => (a.orden - b.orden) || String(a.fechaCreacion).localeCompare(String(b.fechaCreacion)));
+    const ds = q ? todos.filter(d => String(d.nombre || "").toLowerCase().includes(q)) : todos;
+    const pendientes = todos.filter(d => !d.cumplido).length;
+    const urgentes = todos.filter(d => d.prioridad === "🔴 Urgente" && !d.cumplido).length;
 
     const listaDeseos = ds.length
       ? ds.map((d,i) => renderDeseo(d, i+1)).join("")
@@ -1435,10 +1491,13 @@ function renderizarModulos(){
       <div class="modulo" data-id="${esc(m.id)}">
         <div class="modulo__header">
           <div style="flex:1;">
-            <div class="modulo__titulo">${esc(m.icono)} ${esc(m.nombre)}</div>
+            <div class="modulo__titulo">${esc(m.icono)} ${esc(m.nombre)}
+              ${todos.length ? `<span class="modulo__badge">${pendientes}/${todos.length} pendientes</span>` : ""}
+              ${urgentes ? `<span class="modulo__badge urgente">🔴 ${urgentes}</span>` : ""}
+            </div>
             ${m.descripcion ? `<div class="modulo__desc">${esc(m.descripcion)}</div>` : ""}
           </div>
-          <button class="menu-btn" data-menu="${esc(m.id)}">⋮</button>
+          <button class="menu-btn" data-menu="${esc(m.id)}" aria-label="Opciones del módulo">⋮</button>
           <div class="menu-dropdown" id="menu-${esc(m.id)}">
             <button data-accion="editar" data-id="${esc(m.id)}">✏️ Editar módulo</button>
             <button data-accion="eliminar" data-id="${esc(m.id)}" class="peligro">🗑️ Eliminar módulo</button>
@@ -1461,10 +1520,6 @@ function renderizarModulos(){
       });
       $("menu-" + id).classList.toggle("abierto");
     });
-  });
-
-  document.addEventListener("click", () => {
-    document.querySelectorAll(".menu-dropdown.abierto").forEach(m => m.classList.remove("abierto"));
   });
 
   grid.querySelectorAll(".menu-dropdown button").forEach(btn => {
@@ -1527,7 +1582,7 @@ function renderDeseo(d, num){
                  <button class="mini-btn" data-accion="abrir">🔗 Abrir</button>
                  <button class="mini-btn" data-accion="preview">👁 Vista previa</button>` : ""}
         <button class="mini-btn" data-accion="editar">✏️ Editar</button>
-        <button class="mini-btn del" data-accion="eliminar">🗑️</button>
+        <button class="mini-btn del" data-accion="eliminar" aria-label="Eliminar deseo" title="Eliminar">🗑️</button>
       </div>
     </div>
   `;
@@ -1565,6 +1620,7 @@ async function guardarModulo(){
       toast(modoEdicionModulo ? "Módulo actualizado 💜" : "¡Módulo creado!", "ok");
       cerrarModalModulo();
       await cargarTodo();
+      if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
     } else toast(r.error || "Error al guardar", "error");
   } catch(e){ toast("Error de conexión", "error"); }
   finally { restaurar(); ocultarLoader(); }
@@ -1579,7 +1635,11 @@ async function eliminarModulo(id){
     mostrarLoader("Eliminando...");
     try {
       const r = await apiPost({ accion: "eliminarModulo", id });
-      if (r.ok){ toast("Módulo eliminado", "ok"); await cargarTodo(); }
+      if (r.ok){
+        toast("Módulo eliminado", "ok");
+        await cargarTodo();
+        if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
+      }
       else toast(r.error || "Error", "error");
     } catch(e){ toast("Error de conexión", "error"); }
     finally { ocultarLoader(); }
@@ -1834,7 +1894,7 @@ function renderEventoCard(ev){
           ${ev.cumplido ? "↩️ Desmarcar" : "✓ Cumplido"}
         </button>
         <button class="mini-btn" data-ev-accion="editar" data-id="${esc(ev.id)}">✏️ Editar</button>
-        <button class="mini-btn del" data-ev-accion="eliminar" data-id="${esc(ev.id)}">🗑️</button>
+        <button class="mini-btn del" data-ev-accion="eliminar" data-id="${esc(ev.id)}" aria-label="Eliminar evento" title="Eliminar">🗑️</button>
       </div>
     </div>
   `;
@@ -2396,6 +2456,27 @@ async function cargarResponsables(){
 function inicializar(){
   crearParticulas();
   renderizarFechaGrande(new Date());
+
+  const inputBusq = $("buscador-deseos");
+  const btnLimpiar = $("buscador-limpiar");
+  inputBusq.addEventListener("input", () => {
+    busquedaDeseos = inputBusq.value;
+    btnLimpiar.style.display = busquedaDeseos ? "block" : "none";
+    renderizarModulos();
+  });
+  btnLimpiar.addEventListener("click", () => {
+    inputBusq.value = "";
+    busquedaDeseos = "";
+    btnLimpiar.style.display = "none";
+    renderizarModulos();
+    inputBusq.focus();
+  });
+
+  const bannerOffline = $("offline-banner");
+  const actualizarConexion = () => bannerOffline.classList.toggle("visible", !navigator.onLine);
+  window.addEventListener("online", () => { actualizarConexion(); toast("Conexión recuperada 💜", "ok"); });
+  window.addEventListener("offline", actualizarConexion);
+  actualizarConexion();
 
   document.querySelectorAll("[data-cerrar]").forEach(el => {
     el.addEventListener("click", () => {
