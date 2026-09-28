@@ -18,7 +18,7 @@ const COL = {
   notificaciones: "notificaciones"
 };
 
-const URL_SITIO = "https://sitioweb001.github.io/BARTOLITA-SITES/";
+const URL_SITIO = "https://sitioweb001.github.io/BARTOLA-SITES-V1/";
 
 /* ===== Envío real de correo (Apps Script) =====
    Firestore por sí solo no manda correos. En vez de pagar la extensión

@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="https://sitioweb001.github.io/BARTOLITA-SITES/">
+  <a href="https://sitioweb001.github.io/BARTOLA-SITES-V1/">
     <img alt="Abrir web" src="https://img.shields.io/badge/💜%20Abrir%20la%20web-BARTOLITA%20SITES-9370B8?style=for-the-badge">
   </a>
 </p>
@@ -100,7 +100,7 @@ Toda la información se guarda en tiempo real en **Cloud Firestore** y la app se
 ## 🧩 Estructura del proyecto
 
 ```text
-BARTOLITA-SITES/
+BARTOLA-SITES-V1/
 │
 ├── index.html                 # Frontend completo (HTML + CSS + JS)
 ├── firebase-config.js         # Configuración e inicialización de Firebase
@@ -125,7 +125,7 @@ BARTOLITA-SITES/
 | `firebase-logic.js` | Reemplaza al antiguo `codigo.gs`. Expone las mismas funciones `apiGet(accion)` / `apiPost(payload)` que usa `index.html`, pero hablan directo con Firestore en el navegador. |
 | `firestore.rules` | Reglas de seguridad: solo permite leer/escribir a quien tenga una sesión (aunque sea anónima) creada por `firebase-config.js`. |
 | `inicializar-bd.js` | Se pega una sola vez en la consola del navegador para crear los módulos iniciales en Firestore. Es seguro ejecutarlo más de una vez. |
-| `correo.gs` | Microservicio de Apps Script que **solo** envía correos con `MailApp`. No guarda datos ni usa Google Sheets. |
+| `correo.gs` | Apps Script que envía correos con `MailApp` y ejecuta el trigger diario de recordatorios (lee Firestore por REST). No guarda datos ni usa Google Sheets. |
 | `manifest.json` / `service-worker.js` / `icon-*.png` | Convierten la web en una **PWA instalable**, con ícono propio y arranque aunque no haya conexión. |
 | `README.md` | Documentación del proyecto. |
 
@@ -215,11 +215,11 @@ En **Firestore Database → Reglas**, pega el contenido de `firestore.rules` y p
 
 Sube `index.html`, `firebase-config.js`, `firebase-logic.js`, `manifest.json`,
 `service-worker.js` y los íconos (`icon-192.png`, `icon-512.png`, `icon-512-maskable.png`)
-al mismo directorio, por ejemplo un repositorio de GitHub llamado `BARTOLITA-SITES` con
+al mismo directorio, por ejemplo un repositorio de GitHub llamado `BARTOLA-SITES-V1` con
 **GitHub Pages** activado. La web quedará en:
 
 ```text
-https://sitioweb001.github.io/BARTOLITA-SITES/
+https://sitioweb001.github.io/BARTOLA-SITES-V1/
 ```
 
 ### 6️⃣ Inicializar la base de datos
@@ -241,7 +241,8 @@ Es seguro ejecutarlo más de una vez: no duplica los módulos si ya existen.
    - Ejecutar como: **Yo**
    - Quién puede acceder: **Cualquier usuario**
 5. Autoriza los permisos de envío de correo
-6. Copia la URL (`.../exec`) y pégala, junto con la clave, en `firebase-logic.js`:
+6. Ejecuta **una vez** la función `menuInstalarTrigger` (instala los recordatorios diarios de las 8 AM).
+7. Copia la URL (`.../exec`) y pégala, junto con la clave, en `firebase-logic.js`:
 
 ```javascript
 const MAIL_API_URL = "https://script.google.com/macros/s/TU_ID/exec";
@@ -481,7 +482,23 @@ Esta vista ahora tiene **tres bloques**:
 └─────────────────────────────────────────────────┘
 ```
 
-> ⚠️ Los recordatorios diarios automáticos (revisar "¿hay evento mañana/hoy?" a las 8 AM) dependían de un **trigger de Apps Script** ligado a la hoja de cálculo. Como Apps Script ya no aloja los datos, ese trigger debe reimplementarse aparte (por ejemplo con una **Cloud Function programada** que lea Firestore y llame a `correo.gs`, o volviendo a instalar un trigger en Apps Script que primero consulte Firestore). Revisa el menú de tu proyecto de Apps Script para instalarlo si lo necesitas.
+### ⏰ Recordatorios automáticos (día antes y mismo día)
+
+Los avisos **⏰ día antes** y **💜 mismo día** los envía un *trigger* de `correo.gs` todos los días a las **8:00 AM** (hora de El Salvador). El trigger lee **Firestore** (no Google Sheets) mediante su API REST, revisa los eventos de mañana y de hoy, y manda el correo por Gmail a los responsables activos suscritos a cada aviso.
+
+```text
+Trigger 8:00 AM → revisarRecordatorios()
+   ├─ inicia sesión anónima en Firebase (misma regla de firestore.rules)
+   ├─ lee  eventos  y  responsables
+   ├─ ¿evento mañana?  → correo "⏰ Mañana: …"  (notif_dia_antes)
+   ├─ ¿evento hoy?     → correo "💜 ¡Hoy! …"    (notif_dia_evento)
+   └─ marca notificadoAntes / notificadoDia para no repetir
+```
+
+- Los eventos **cumplidos** no reciben aviso.
+- Si editas la fecha de un evento, sus avisos se reinician automáticamente.
+- Instalación: en Apps Script ejecuta **una vez** la función `menuInstalarTrigger` y acepta los permisos.
+- Prueba: ejecuta `revisarRecordatorios` a mano y mira **Ver → Registros**.
 
 ---
 
