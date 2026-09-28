@@ -26,6 +26,11 @@
   --f-hand:'Caveat',cursive; --f-body:'Quicksand',sans-serif;
 }
 *{ box-sizing:border-box; margin:0; padding:0; }
+:focus-visible{ outline:3px solid var(--lila-5); outline-offset:2px; border-radius:8px; }
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  .particula{ display:none; }
+}
 html{ scroll-behavior:smooth; }
 body{
   font-family:var(--f-body); color:var(--texto);
@@ -183,8 +188,9 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   border-radius:50%; cursor:pointer; font-size:0.75rem;
 }
 .buscador-limpiar:hover{ background:var(--lila-4); color:#fff; }
+.modulo__badges{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
 .modulo__badge{
-  display:inline-block; margin-left:8px; padding:2px 10px; border-radius:999px;
+  display:inline-block; white-space:nowrap; padding:2px 10px; border-radius:999px;
   font-size:0.68rem; font-weight:700; background:var(--lila-2); color:var(--lila-7);
   vertical-align:middle; font-family:var(--f-body);
 }
@@ -271,6 +277,8 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
 .deseo[data-prioridad="🟡 Importante"]{ border-left-color: var(--importante); background: linear-gradient(90deg, #FEF6E6, #fff 30%); }
 .deseo[data-prioridad="🟢 Puede esperar"]{ border-left-color: var(--puede-esperar); background: linear-gradient(90deg, #EEF9F3, #fff 30%); }
 .deseo[data-prioridad="⚪ Sin prioridad"]{ border-left-color: var(--sin-prioridad); }
+.deseo.cumplido{ opacity:0.75; background: linear-gradient(90deg, #EEF9F3, #fff 40%) !important; border-left-color: var(--puede-esperar) !important; }
+.deseo.cumplido .deseo__titulo > span:last-child{ text-decoration:line-through; text-decoration-color: var(--puede-esperar); }
 .deseo__fila{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
 .deseo__titulo{
   font-weight:700; color:var(--lila-8); font-size:1rem;
@@ -720,6 +728,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   font-size:0.78rem; font-weight:600; margin-top:8px;
 }
 .bartolo-item__acciones{ display:flex; flex-direction:column; gap:6px; }
+.bartolo-item__acciones .btn{ white-space:nowrap; }
 
 /* RESPONSABLES */
 .tabla-responsables{
@@ -870,6 +879,9 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   }
 }
 @media (max-width: 640px){
+  .hero{ padding: 20px 16px 8px; }
+  .hero h1{ font-size: 1.75rem; margin-bottom:4px; }
+  .hero p{ font-size:0.88rem; }
   .topbar__logo{ font-size:1.15rem; }
   .modulos-grid{ grid-template-columns: 1fr; }
   .modal{ padding: 22px 18px; border-radius:22px; max-height:94vh; }
@@ -886,7 +898,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
   .dia__texto{ display:none; }
   .bartolo-item{ flex-direction: column; }
   .bartolo-item__acciones{ flex-direction: row; width: 100%; flex-wrap:wrap; }
-  .bartolo-item__acciones .btn{ flex:1; min-width:90px; }
+  .bartolo-item__acciones .btn{ flex:1; min-width:0; padding:8px 6px; font-size:0.78rem; white-space:nowrap; }
 }
 @media (max-width: 380px){
   .topbar__logo .titulo{ font-size:0.95rem; }
@@ -1022,6 +1034,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
         <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
       </div>
       <div class="calendario__grid" id="cal-grid"></div>
+      <div class="bartolo-tip" style="margin:12px 0 0;">👆 Toca un día para verlo · toca dos veces para agendar un momento</div>
       <button class="btn btn--bloque" id="btn-agendar">
         <span>💜</span> Agendar momento
       </button>
@@ -1061,7 +1074,7 @@ main{ max-width:1000px; margin: 0 auto; padding: 24px 16px; position:relative; z
     <div class="bartolo-seccion-titulo">📅 Eventos</div>
     <div class="bartolo-lista" id="bartolo-lista"></div>
 
-    <div class="bartolo-seccion-titulo">🌸 Deseos pendientes (por módulo)</div>
+    <div class="bartolo-seccion-titulo">🌸 Deseos por módulo</div>
     <div id="bartolo-deseos"></div>
   </section>
 
@@ -1491,11 +1504,12 @@ function renderizarModulos(){
       <div class="modulo" data-id="${esc(m.id)}">
         <div class="modulo__header">
           <div style="flex:1;">
-            <div class="modulo__titulo">${esc(m.icono)} ${esc(m.nombre)}
-              ${todos.length ? `<span class="modulo__badge">${pendientes}/${todos.length} pendientes</span>` : ""}
-              ${urgentes ? `<span class="modulo__badge urgente">🔴 ${urgentes}</span>` : ""}
-            </div>
+            <div class="modulo__titulo">${esc(m.icono)} ${esc(m.nombre)}</div>
             ${m.descripcion ? `<div class="modulo__desc">${esc(m.descripcion)}</div>` : ""}
+            ${todos.length ? `<div class="modulo__badges">
+              <span class="modulo__badge">${pendientes}/${todos.length} pendientes</span>
+              ${urgentes ? `<span class="modulo__badge urgente">🔴 ${urgentes} urgente${urgentes === 1 ? "" : "s"}</span>` : ""}
+            </div>` : ""}
           </div>
           <button class="menu-btn" data-menu="${esc(m.id)}" aria-label="Opciones del módulo">⋮</button>
           <div class="menu-dropdown" id="menu-${esc(m.id)}">
@@ -1543,6 +1557,7 @@ function renderizarModulos(){
         const deseo = deseos.find(x => String(x.id) === String(id));
         if (accion === "editar") abrirModalDeseo(deseo);
         if (accion === "eliminar") eliminarDeseo(id);
+        if (accion === "cumplido") marcarCumplidoDeseo(id, !deseo.cumplido);
         if (accion === "abrir") window.open(deseo.url, "_blank", "noopener");
         if (accion === "preview") abrirPreview(deseo.url);
         if (accion === "copiar"){
@@ -1568,7 +1583,7 @@ function renderDeseo(d, num){
   const url = d.url || "";
   const prioridad = d.prioridad || "⚪ Sin prioridad";
   return `
-    <div class="deseo" data-id="${esc(d.id)}" data-prioridad="${esc(prioridad)}">
+    <div class="deseo ${d.cumplido ? "cumplido" : ""}" data-id="${esc(d.id)}" data-prioridad="${esc(prioridad)}">
       <div class="deseo__fila">
         <div class="deseo__titulo">
           <span class="deseo__num">${pad(num)}.</span>
@@ -1578,6 +1593,7 @@ function renderDeseo(d, num){
       </div>
       ${d.descripcion ? `<div class="deseo__desc">${esc(d.descripcion)}</div>` : ""}
       <div class="deseo__acciones">
+        <button class="mini-btn ${d.cumplido ? "" : "btn--cumplido"}" data-accion="cumplido">${d.cumplido ? "↩️ Desmarcar" : "✓ Cumplido"}</button>
         ${url ? `<button class="mini-btn" data-accion="copiar">📋 Copiar</button>
                  <button class="mini-btn" data-accion="abrir">🔗 Abrir</button>
                  <button class="mini-btn" data-accion="preview">👁 Vista previa</button>` : ""}
@@ -1828,9 +1844,19 @@ function renderizarCalendario(){
     btn.innerHTML = `<div class="dia__num">${d}</div>${emojisHtml}${textoHtml}`;
     if (tituloAtributo) btn.title = tituloAtributo;
 
-    btn.addEventListener("click", () => seleccionarDia(fechaStr, btn));
+    btn.addEventListener("click", () => manejarClickDia(fechaStr, btn));
     grid.appendChild(btn);
   }
+}
+
+/* Doble clic (o doble toque en celular) sobre un día = agendar momento */
+let ultimoToqueDia = { fecha: null, t: 0 };
+function manejarClickDia(fechaStr, btn){
+  const ahora = Date.now();
+  const esDoble = ultimoToqueDia.fecha === fechaStr && (ahora - ultimoToqueDia.t) < 400;
+  ultimoToqueDia = { fecha: fechaStr, t: esDoble ? 0 : ahora };
+  seleccionarDia(fechaStr, btn);
+  if (esDoble) abrirModalEvento();
 }
 
 function seleccionarDia(fechaStr, btn){
@@ -1910,8 +1936,7 @@ function abrirModalEvento(ev = null){
     modulos.map(m => `<option value="${esc(m.id)}">${esc(m.icono)} ${esc(m.nombre)}</option>`).join("");
 
   const selDes = $("evento-deseo");
-  selDes.innerHTML = `<option value="">— Sin vincular —</option>` +
-    deseos.map(d => `<option value="${esc(d.id)}">${esc(d.nombre)}</option>`).join("");
+  llenarSelectDeseosEvento(ev ? (ev.moduloId || "") : "", ev ? (ev.deseoId || "") : "");
 
   $("evento-titulo").value = ev ? ev.titulo : "";
   $("evento-fecha").value = ev ? ev.fecha : (fechaSeleccionada ? ymd(fechaSeleccionada) : ymd(new Date()));
@@ -1926,6 +1951,15 @@ function abrirModalEvento(ev = null){
 
   $("modal-evento").classList.add("visible");
 }
+/* El select de deseos solo muestra los del módulo elegido (o todos si no hay módulo) */
+function llenarSelectDeseosEvento(moduloId, seleccionado){
+  const selDes = $("evento-deseo");
+  const lista = moduloId ? deseos.filter(d => String(d.moduloId) === String(moduloId)) : deseos;
+  selDes.innerHTML = `<option value="">— Sin vincular —</option>` +
+    lista.map(d => `<option value="${esc(d.id)}">${esc(d.nombre)}</option>`).join("");
+  if (seleccionado && lista.some(d => String(d.id) === String(seleccionado))) selDes.value = seleccionado;
+}
+
 function cerrarModalEvento(){
   $("modal-evento").classList.remove("visible");
   modoEdicionEvento = null;
@@ -1936,6 +1970,10 @@ async function guardarEvento(){
   const fecha = $("evento-fecha").value;
   if (!titulo){ toast("El evento necesita un título", "error"); return; }
   if (!fecha){ toast("Elige una fecha", "error"); return; }
+  const hIni = $("evento-hora-ini").value, hFin = $("evento-hora-fin").value;
+  if (!$("evento-todo-dia").checked && hIni && hFin && hFin <= hIni){
+    toast("La hora de fin debe ser después de la de inicio", "error"); return;
+  }
   const btn = $("btn-guardar-evento");
   const restaurar = bloquearBtn(btn);
   mostrarLoader("Guardando momento...");
@@ -2155,7 +2193,8 @@ async function marcarCumplidoDeseo(id, cumplido){
     if (r.ok){
       toast(cumplido ? "¡Deseo cumplido! 💜" : "Desmarcado", "ok");
       await cargarDeseos();
-      renderizarBartolo();
+      renderizarModulos();
+      if (document.querySelector("#vista-bartolo.activa")) renderizarBartolo();
     } else toast(r.error || "Error", "error");
   } catch(e){ toast("Error de conexión", "error"); }
   finally { ocultarLoader(); }
@@ -2470,6 +2509,19 @@ function inicializar(){
     btnLimpiar.style.display = "none";
     renderizarModulos();
     inputBusq.focus();
+  });
+
+  $("evento-modulo").addEventListener("change", (e) => {
+    llenarSelectDeseosEvento(e.target.value, $("evento-deseo").value);
+  });
+  $("evento-deseo").addEventListener("change", (e) => {
+    const d = deseos.find(x => String(x.id) === String(e.target.value));
+    if (!d) return;
+    if (!$("evento-titulo").value.trim()) $("evento-titulo").value = d.nombre;
+    if (!$("evento-modulo").value){
+      $("evento-modulo").value = d.moduloId;
+      llenarSelectDeseosEvento(d.moduloId, d.id);
+    }
   });
 
   const bannerOffline = $("offline-banner");
