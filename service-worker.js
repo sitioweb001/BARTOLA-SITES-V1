@@ -4,7 +4,7 @@
 // Los datos (Google Apps Script) SIEMPRE se piden a internet, nunca se cachean,
 // para que veas la información más reciente.
 
-const CACHE_NAME = "bartolita-cache-v1";
+const CACHE_NAME = "bartolita-cache-v2";
 const ARCHIVOS_CASCARON = [
   "./",
   "./index.html",
@@ -46,17 +46,17 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Estrategia "cache primero, con respaldo de red" solo para el cascarón local.
+  // Estrategia "red primero, con respaldo de caché": siempre trae la versión
+  // más reciente de los archivos y solo usa la copia guardada sin conexión.
   event.respondWith(
-    caches.match(event.request).then((respuestaCache) => {
-      if (respuestaCache) return respuestaCache;
-      return fetch(event.request)
-        .then((respuestaRed) => {
-          const copia = respuestaRed.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copia));
-          return respuestaRed;
-        })
-        .catch(() => caches.match("./index.html"));
-    })
+    fetch(event.request, { cache: "no-cache" })
+      .then((respuestaRed) => {
+        const copia = respuestaRed.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copia));
+        return respuestaRed;
+      })
+      .catch(() =>
+        caches.match(event.request).then((r) => r || caches.match("./index.html"))
+      )
   );
 });
