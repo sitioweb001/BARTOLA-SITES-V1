@@ -2,7 +2,7 @@
    💜 DESEOS DE BARTOLITA — Inicializar base de datos
    =====================================================
    CÓMO USARLO:
-   1. Abre https://sitioweb001.github.io/BARTOLITA-SITES/
+   1. Abre https://sitioweb001.github.io/BARTOLA-SITES-V1/index.html
       (ya con firebase-config.js correctamente configurado y subido).
    2. Abre la consola del navegador (F12 → pestaña "Console").
    3. Pega TODO este código y presiona Enter.
